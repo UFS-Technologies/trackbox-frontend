@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'tailwindcss/base' as *;
+@use 'tailwindcss/components' as *;
+@use 'tailwindcss/utilities' as *;
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;    background-color: #F7F9FB;}
+
+.ipv_selected-item{
+    background: none;
+    border: none;
+  }

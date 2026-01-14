@@ -1,0 +1,96 @@
+<div class="flex ">
+
+
+
+  <nav class="fixed top-0 z-40 w-full ">
+    <div class="px-4 py-3 lg:px-4  lg:pl-0"  style="background-color:#F7F9FB;padding-bottom: 0!important;padding-right: 0!important;" >
+      <div class="flex items-center justify-between">
+        <div class="w-64">
+          <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+            <span class="sr-only">Open sidebar</span>
+            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+            </svg>
+          </button>
+          <a href="#" class="flex ms-2 md:me-24">
+            <img src="assets/images/logo3.svg" class="h-100 w-100 " alt=" Logo" />
+          </a>
+        </div> 
+        <div class="flex-auto  items-center">
+          <div class=" p-8 pb-5">
+
+            <div class=" bg-white  box-shadow rounded-lg	py-4 px-5 sm:border flex  items-center justify-between w-full sm:border-gray-200 ">
+
+
+              <div class=" hidden sm:block heading-text font-semibold text-base " >
+                {{title}}
+              </div>
+              <div id="right-section">
+
+                <div>
+
+                  <span class="sr-only">Open user menu</span>
+                  <div class="flex gap-3 justify-center">
+
+                    <img class="w-10 h-10 " src="assets/images/icons/User.svg"  alt="user photo">
+                    <div class="flex items-center justify-center">
+
+
+                      <p  class="text-left"style="margin: 0!important;">{{First_Name}}</p>
+                      <!-- <p>{{userEmail}}</p> -->
+                    </div>
+                    <a  (click)="logout()" class=" px-4 cursor-pointer py-2 text-sm text-gray-700 flex justify-center items-center hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white   border-l-2 " role="menuitem">                     <span class="material-symbols-outlined " style="color: red;" >
+                      power_settings_new
+                    </span> </a>
+
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <aside id="logo-sidebar" class="fixed top-0 left-0 z-50 w-64 h-screen pt-10 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 light:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+
+
+    <div class="h-full px-3 pb-4 overflow-y-auto bg-white light:bg-gray-800">
+      <div class="flex justify-center mb-4 pb-5 bg-white ">
+        <img src="assets/images/logo3.svg" width="170px" class="h-100 w-100 " alt=" Logo" />
+
+      </div>
+      <ul class="space-y-2 pt-1 font-medium">
+        @for (item of menuItems; track item) {
+          @if (!item.subItems) {
+            <li (click)="performAction(item.label)">
+              <a [routerLink]="[item.Route]" routerLinkActive="router-link-active" class="flex items-center p-2 rounded-lg hover:bg-[#7FC7D91A]  hover:text-dark-blue  hover:font-bold  group">
+                <span class="flex gap-2 ms-5  h-5 whitespace-nowrap text-blue  ">
+                  <img [src]="getImageSource(item.label, isActive(item.link))" style="height: 100% !important;" alt="" srcset="">
+                  <span class="flex items-center pt-1 ">
+                    {{ item.Menu_Name }}
+                  </span>
+                </span>
+              </a>
+            </li>
+          }
+          @if (item.subItems) {
+            <li>
+              <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 hover:text-black light:text-black dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">E-{{ item.label }}</span>
+              </button>
+              <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                @for (subItem of item.subItems; track subItem) {
+                  <li (click)="performAction(item.action)">
+                    <a [routerLink]="subItem.link" routerLinkActive="router-link-active" class="flex items-center w-full p-2 text-blue transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black light:text-black dark:hover:bg-gray-700">{{ subItem.label }}</a>
+                  }
+                </ul>
+              </li>
+            }
+          }
+        </ul>
+      </div>
+
+    </aside></div>
