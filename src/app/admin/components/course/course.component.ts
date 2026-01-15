@@ -1218,6 +1218,23 @@ handleMediaError(event: Event) {
     this.applyFilters()
  
   }
+
+  View_Exam_List(Course_Id, coursename) {
+    this.SelecetedCourse = coursename;
+
+    this.filterForm.reset({
+      moduleId: [0],
+      sectionId: [0],
+      dayId: [0],
+      visibilityType: [1],
+      Is_Exam_Test: [1],
+      filterName: ''
+    });
+
+    this.course_Form.get('Course_ID')?.patchValue(Course_Id);
+    this.contentForm.get('Course_ID')?.patchValue(Course_Id);
+    this.applyFilters();
+  }
   showmessage(){
     console.log(this.course_Form.value);
     console.log(' this.invalidDetails : ',  this.invalidDetails );

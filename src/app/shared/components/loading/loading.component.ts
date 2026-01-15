@@ -9,9 +9,6 @@ import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 })
 export class LoadingComponent implements OnChanges {
   @Input() isLoading: boolean = false;
-  lottieOptions: AnimationOptions = {
-    path: 'assets/lottie/newScene.json',
-  };
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes: ', changes);
