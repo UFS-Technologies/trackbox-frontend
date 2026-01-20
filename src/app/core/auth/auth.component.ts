@@ -65,6 +65,7 @@ export class AuthComponent implements OnInit {
           this.showErrorDialog('Login failed. Please check your credentials.');
         }
       } catch (error) {
+        console.error('Login implementation error or API failure:', error);
       } finally {
         this.isLoading = false;
       }

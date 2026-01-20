@@ -19,7 +19,7 @@ export class TokenInterceptor implements HttpInterceptor {
         const Student_Id = localStorage.getItem('Student_Id');
         const token = localStorage.getItem('Access_Token');
 
-        if (token) {
+        if (token && !request.url.includes('r2.cloudflarestorage.com')) {
             request = request.clone({
                 setHeaders: {
                     'authorization': 'Bearer ' + token,

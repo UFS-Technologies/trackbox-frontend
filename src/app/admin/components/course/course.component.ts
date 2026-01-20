@@ -16,6 +16,7 @@ import { Observable, Subscription, catchError, filter, forkJoin, map } from 'rxj
 import { MatSelectChange } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
 import { BatchComponent } from './batch/batch.component';
+import { AdminExamComponent } from './admin-exam/admin-exam.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ContentFilterPipe } from '../../services/content-filter.pipe'; // Adjust the path as needed
 import { ViewportScroller } from '@angular/common';
@@ -35,7 +36,7 @@ function atLeastOneTeacher(): ValidatorFn {
 @Component({
     selector: 'app-course',
     standalone:true,
-    imports: [SharedModule, CommonModule, NgxMaterialTimepickerModule, BatchComponent, ContentFilterPipe,NgxMaterialTimepickerModule],
+    imports: [SharedModule, CommonModule, NgxMaterialTimepickerModule, BatchComponent, ContentFilterPipe,NgxMaterialTimepickerModule, AdminExamComponent],
     templateUrl: './course.component.html',
     encapsulation: ViewEncapsulation.None,
     styleUrl: './course.component.scss'
@@ -104,7 +105,7 @@ export class CourseComponent implements OnInit, OnDestroy  {
   filepath: string;
   searchTimeout: any;
 
-  view: 'students' | 'list' | 'details' | 'exam_students' | 'exam_students_Details'|'form' |'Batch_Course'|'course_content_details'|'content_list'= 'students';
+  view: 'students' | 'list' | 'details' | 'exam_students' | 'exam_students_Details'|'form' |'Batch_Course'|'course_content_details'|'content_list'|'exam_management'= 'students';
   navigationItems: { view: string, label: string }[] = [];
   invalidDetails: InvalidDetail[]=[];
   getTotalContentItems: any;
@@ -1221,19 +1222,9 @@ handleMediaError(event: Event) {
 
   View_Exam_List(Course_Id, coursename) {
     this.SelecetedCourse = coursename;
-
-    this.filterForm.reset({
-      moduleId: [0],
-      sectionId: [0],
-      dayId: [0],
-      visibilityType: [1],
-      Is_Exam_Test: [1],
-      filterName: ''
-    });
-
     this.course_Form.get('Course_ID')?.patchValue(Course_Id);
     this.contentForm.get('Course_ID')?.patchValue(Course_Id);
-    this.applyFilters();
+    this.setView('exam_management');
   }
   showmessage(){
     console.log(this.course_Form.value);

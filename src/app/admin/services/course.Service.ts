@@ -231,6 +231,27 @@ Get_course_content_By_Day(
   return this.http.get(`${environment.BasePath}course/Get_course_content_By_Day`, { params });
 }
 
+Manage_ExamData(data: any) {
+  return this.http.post(environment.BasePath + 'course/Manage_ExamData', data);
+}
+
+Manage_CourseExam(data: any) {
+  return this.http.post(environment.BasePath + 'course/Manage_CourseExam', data);
+}
+
+Manage_Questions(data: any) {
+  return this.http.post(environment.BasePath + 'course/Manage_Questions', data);
+}
+
+Student_GetExams(Course_ID: any) {
+  return this.http.get(environment.BasePath + 'course/Student_GetExams/' + Course_ID);
+}
+
+Student_GetQuestions(course_exam_id: any) {
+  return this.http.get(environment.BasePath + 'course/Student_GetQuestions/' + course_exam_id);
+}
+
+
 
 }
 
