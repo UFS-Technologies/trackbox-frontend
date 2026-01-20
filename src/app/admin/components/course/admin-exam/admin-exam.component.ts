@@ -20,6 +20,7 @@ export class AdminExamComponent implements OnInit {
   private dialogBox = inject(MatDialog);
 
   @Input() Course_ID: number = 0;
+  @Input() Course_Name: string = '';
   readonly closeClicked = output<void>();
 
   view: 'exam_list' | 'exam_data' | 'course_exam_form' | 'questions' = 'exam_list';
@@ -44,7 +45,7 @@ export class AdminExamComponent implements OnInit {
 
     this.courseExamForm = this.fb.group({
       course_exam_id: [0],
-      exam_data_id: [0, Validators.required],
+      exam_data_id: [0], 
       Course_ID: [0],
       duration: [0, [Validators.required, Validators.min(1)]],
       questions: [0, [Validators.required, Validators.min(1)]],
@@ -77,7 +78,15 @@ export class AdminExamComponent implements OnInit {
   loadExamData() {
     // We use SELECT action on Manage_ExamData
     this.course_Service_.Manage_ExamData({ action: 'SELECT' }).subscribe((res: any) => {
-      this.examDataList = res[0];
+        // Log the response to debug
+        console.log('Manage_ExamData SELECT response:', res);
+        
+        if (Array.isArray(res) && Array.isArray(res[0])) {
+             this.examDataList = res[0];
+        } else {
+             this.examDataList = res;
+        }
+        
       this.isLoading = false;
     });
   }
@@ -156,6 +165,7 @@ export class AdminExamComponent implements OnInit {
         this.dialogBox.open(DialogBox_Component, { data: { Message: 'Linked Successfully', Type: 'false' } });
         this.loadCourseExams();
         this.setView('exam_list');
+        this.isLoading = false;
       },
       error: () => this.isLoading = false
     });
