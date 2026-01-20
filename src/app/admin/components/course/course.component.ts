@@ -152,7 +152,7 @@ TempAudio:any=''
      });
      this.contentForm = this.fb.group({
       Module_ID: [0],
-      visibilities: [[]],
+      visibilities: [[1, 2]],
       Days_Id: [0],
       Is_Exam_Test: [false],
       contentName: [''],
@@ -1808,7 +1808,7 @@ this.isLoading=true;
   clearContentForm() {
     this.contentForm.reset({
       Module_ID: 0,
-      visibilities: [],
+      visibilities: [1, 2],
       Days_Id: 0,
       Is_Exam_Test: false,
       contentName: '',
