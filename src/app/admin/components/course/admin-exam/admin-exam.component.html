@@ -1,6 +1,9 @@
 <div class="p-6 bg-gray-50 min-h-screen">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Exam Management</h1>
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800">Exam Management</h1>
+      <p class="text-gray-600 font-medium mt-1">Course: <span class="text-blue-600">{{ Course_Name }}</span></p>
+    </div>
     <button (click)="onClose()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
       Close
     </button>
@@ -16,12 +19,15 @@
     
     <!-- Action Buttons -->
     <div class="flex gap-4">
-      <button (click)="setView('exam_data')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md transition-transform transform hover:scale-105">
+      <!-- <button (click)="setView('exam_data')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md transition-transform transform hover:scale-105">
         Manage Exam Types
-      </button>
-      <button (click)="onAddCourseExam()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md transition-transform transform hover:scale-105">
-        Link New Exam to Course
-      </button>
+      </button> -->
+      <button
+  (click)="onAddCourseExam()"
+  class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded shadow-md transition-transform transform hover:scale-105">
+  Link New Exam to Course
+</button>
+
     </div>
 
     <!-- Linked Exams Table -->
@@ -132,9 +138,13 @@
              <p class="text-xs text-gray-500 mt-1">Number of questions randomly selected for the student.</p>
         </div>
 
-      <button type="submit" [disabled]="courseExamForm.invalid" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md shadow-md transition-colors disabled:opacity-50">
-        Save Details
-      </button>
+      <button
+  type="submit"
+  [disabled]="courseExamForm.invalid"
+  class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-md shadow-md transition-colors disabled:opacity-50">
+  Save Details
+</button>
+
     </form>
   </div>
 
