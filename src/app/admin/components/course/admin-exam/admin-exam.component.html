@@ -4,7 +4,8 @@
       <h1 class="text-2xl font-bold text-gray-800">Exam Management</h1>
       <p class="text-gray-600 font-medium mt-1">Course: <span class="text-blue-600">{{ Course_Name }}</span></p>
     </div>
-    <button (click)="onClose()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+    <button (click)="onClose()"
+      class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
       Close
     </button>
   </div>
@@ -16,62 +17,67 @@
 
   <!-- View: Exam List (Course Exams) -->
   <div *ngIf="view === 'exam_list'" class="space-y-6">
-    
+
     <!-- Action Buttons -->
     <div class="flex gap-4">
       <!-- <button (click)="setView('exam_data')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow-md transition-transform transform hover:scale-105">
         Manage Exam Types
       </button> -->
-      <button
-  (click)="onAddCourseExam()"
-  class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded shadow-md transition-transform transform hover:scale-105">
-  Link New Exam to Course
-</button>
+      <button (click)="onAddCourseExam()"
+        class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded shadow-md transition-transform transform hover:scale-105">
+        Link New Exam to Course
+      </button>
 
     </div>
 
     <!-- Linked Exams Table -->
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <div class="px-6 py-4 bg-gray-100 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-700">Exams Linked to this Course</h2>
-        </div>
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exam Name</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration (mins)</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Questions Count</th>
-               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pass Count</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr *ngFor="let exam of courseExams" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ getExamName(exam.exam_data_id) }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ exam.duration }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ exam.questions }}</td>
-               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ exam.passcount }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                <button (click)="manageQuestions(exam)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded-full">Questions</button>
-                <button (click)="onEditCourseExam(exam)" class="text-yellow-600 hover:text-yellow-900 bg-yellow-50 px-3 py-1 rounded-full">Edit</button>
-                <button (click)="deleteCourseExam(exam.course_exam_id)" class="text-red-600 hover:text-red-900 bg-red-50 px-3 py-1 rounded-full">Delete</button>
-              </td>
-            </tr>
-            <tr *ngIf="courseExams.length === 0">
-                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">No exams linked to this course yet.</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="px-6 py-4 bg-gray-100 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-700">Exams Linked to this Course</h2>
+      </div>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exam Name</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration (mins)
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Questions Count
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pass Count</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let exam of courseExams" class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ getExamName(exam.exam_data_id)
+              }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ exam.duration }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ exam.questions }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ exam.passcount }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+              <button (click)="manageQuestions(exam)"
+                class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded-full">Questions</button>
+              <button (click)="onEditCourseExam(exam)"
+                class="text-yellow-600 hover:text-yellow-900 bg-yellow-50 px-3 py-1 rounded-full">Edit</button>
+              <button (click)="deleteCourseExam(exam.course_exam_id)"
+                class="text-red-600 hover:text-red-900 bg-red-50 px-3 py-1 rounded-full">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="courseExams.length === 0">
+            <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">No exams linked to this course yet.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
   <!-- View: Manage Exam Data (Master List) -->
   <div *ngIf="view === 'exam_data'" class="space-y-6">
     <div class="flex justify-between items-center">
-        <h2 class="text-xl font-bold text-gray-700">Exam Types (Master List)</h2>
-         <button (click)="setView('exam_list')" class="text-gray-600 hover:text-gray-800 font-medium">
-             &larr; Back to Course Exams
-         </button>
+      <h2 class="text-xl font-bold text-gray-700">Exam Types (Master List)</h2>
+      <button (click)="setView('exam_list')" class="text-gray-600 hover:text-gray-800 font-medium">
+        &larr; Back to Course Exams
+      </button>
     </div>
 
     <!-- Add/Edit Form -->
@@ -79,28 +85,33 @@
       <form [formGroup]="examDataForm" (ngSubmit)="saveExamData()" class="flex gap-4 items-end">
         <div class="flex-grow">
           <label class="block text-sm font-medium text-gray-700 mb-1">Exam Name</label>
-          <input formControlName="exam_name" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Final Assessment">
+          <input formControlName="exam_name" type="text"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="e.g., Final Assessment">
         </div>
-        <button type="submit" [disabled]="examDataForm.invalid" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded shadow-sm disabled:opacity-50">
+        <button type="submit" [disabled]="examDataForm.invalid"
+          class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded shadow-sm disabled:opacity-50">
           Save
         </button>
-        <button type="button" (click)="onAddExamData()" *ngIf="examDataForm.get('exam_data_id')?.value" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded shadow-sm">
-            Cancel
+        <button type="button" (click)="onAddExamData()" *ngIf="examDataForm.get('exam_data_id')?.value"
+          class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded shadow-sm">
+          Cancel
         </button>
       </form>
     </div>
 
     <!-- List -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div *ngFor="let data of examDataList" class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow flex justify-between items-center border border-gray-200">
+      <div *ngFor="let data of examDataList"
+        class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow flex justify-between items-center border border-gray-200">
         <span class="font-medium text-gray-800">{{ data.exam_name }}</span>
         <div class="space-x-2">
-           <button (click)="onEditExamData(data)" class="text-blue-500 hover:text-blue-700">
-               <span class="material-symbols-outlined">edit</span>
-           </button>
-           <button (click)="deleteExamData(data.exam_data_id)" class="text-red-500 hover:text-red-700">
-               <span class="material-symbols-outlined">delete</span>
-           </button>
+          <button (click)="onEditExamData(data)" class="text-blue-500 hover:text-blue-700">
+            <span class="material-symbols-outlined">edit</span>
+          </button>
+          <button (click)="deleteExamData(data.exam_data_id)" class="text-red-500 hover:text-red-700">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
         </div>
       </div>
     </div>
@@ -109,119 +120,132 @@
   <!-- View: Course Exam Form (Linking) -->
   <div *ngIf="view === 'course_exam_form'" class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
     <div class="flex justify-between items-center mb-6">
-         <h2 class="text-xl font-bold text-gray-800">{{ courseExamForm.get('course_exam_id')?.value ? 'Edit' : 'Link' }} Exam to Course</h2>
-         <button (click)="setView('exam_list')" class="text-gray-500 hover:text-gray-700">Cancel</button>
+      <h2 class="text-xl font-bold text-gray-800">{{ courseExamForm.get('course_exam_id')?.value ? 'Edit' : 'Link' }}
+        Exam to Course</h2>
+      <button (click)="setView('exam_list')" class="text-gray-500 hover:text-gray-700">Cancel</button>
     </div>
-   
+
     <form [formGroup]="courseExamForm" (ngSubmit)="saveCourseExam()" class="space-y-6">
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Select Exam Type</label>
-        <select formControlName="exam_data_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <select formControlName="exam_data_id"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option [ngValue]="0" disabled>Select an Exam</option>
           <option *ngFor="let data of examDataList" [ngValue]="data.exam_data_id">{{ data.exam_name }}</option>
         </select>
       </div>
-      
+
       <div class="grid grid-cols-2 gap-4">
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Duration (Minutes)</label>
-            <input formControlName="duration" type="number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Duration (Minutes)</label>
+          <input formControlName="duration" type="number"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Pass Count</label>
-             <input formControlName="passcount" type="number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Pass Count</label>
+          <input formControlName="passcount" type="number"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
       </div>
-       <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Total Questions to Display</label>
-             <input formControlName="questions" type="number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-             <p class="text-xs text-gray-500 mt-1">Number of questions randomly selected for the student.</p>
-        </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Total Questions to Display</label>
+        <input formControlName="questions" type="number"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <p class="text-xs text-gray-500 mt-1">Number of questions randomly selected for the student.</p>
+      </div>
 
-      <button
-  type="submit"
-  [disabled]="courseExamForm.invalid"
-  class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-md shadow-md transition-colors disabled:opacity-50">
-  Save Details
-</button>
+      <button type="submit" [disabled]="courseExamForm.invalid"
+        class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-md shadow-md transition-colors disabled:opacity-50">
+        Save Details
+      </button>
 
     </form>
   </div>
 
-  <!-- View: Questions Management -->
+  <!-- View: Questions Management (Excel Upload) -->
   <div *ngIf="view === 'questions'" class="space-y-6">
-     <div class="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-        <div>
-            <h2 class="text-xl font-bold text-gray-800">Questions Management</h2>
-            <p class="text-sm text-gray-600">Exam: {{ getExamName(selectedCourseExam?.exam_data_id) }}</p>
-        </div>
-         <button (click)="setView('exam_list')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded">
-             &larr; Back
-         </button>
+    <div class="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+      <div>
+        <h2 class="text-xl font-bold text-gray-800">Questions Upload (Excel)</h2>
+        <p class="text-sm text-gray-600">Bulk upload questions from an Excel file.</p>
+      </div>
+      <button (click)="setView('exam_list')"
+        class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded">
+        &larr; Back
+      </button>
     </div>
 
-    <!-- Question Form -->
-    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
-        <h3 class="text-lg font-semibold text-gray-700 mb-4">{{ questionForm.get('question_id')?.value ? 'Edit' : 'Add New' }} Question</h3>
-         <form [formGroup]="questionForm" (ngSubmit)="saveQuestion()" class="space-y-4">
-             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Question Text</label>
-                <textarea formControlName="question_name" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter your question here..."></textarea>
-             </div>
+    <div class="bg-white p-8 rounded-lg shadow-md border-t-4 border-indigo-500">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Left Side: Dropdowns -->
+        <div class="space-y-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Course<span
+                class="text-red-500">*</span></label>
+            <select [(ngModel)]="targetCourseId" (change)="onCourseChange()"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white shadow-sm">
+              <option [ngValue]="null" disabled>Select Course</option>
+              <option *ngFor="let course of coursesList" [ngValue]="course.Course_ID">{{ course.Course_Name }}</option>
+            </select>
+          </div>
 
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                 <div *ngFor="let opt of [1,2,3,4]">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Option {{opt}}</label>
-                    <div class="flex items-center gap-2">
-                        <input [formControlName]="'option'+opt" type="text" class="flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Option {{opt}}">
-                        <!-- Radio for correct answer selection tied to this option input -->
-                           <input type="radio" formControlName="correct_answer" [value]="questionForm.get('option'+opt)?.value" class="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300" 
-                           [checked]="questionForm.get('correct_answer')?.value === questionForm.get('option'+opt)?.value && questionForm.get('option'+opt)?.value !== ''"
-                           (change)="questionForm.patchValue({correct_answer: questionForm.get('option'+opt)?.value})"
-                            title="Mark as correct answer">
-                    </div>
-                 </div>
-             </div>
-              
-             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Correct Answer</label>
-                 <input formControlName="correct_answer" type="text" readonly class="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-600 cursor-not-allowed">
-                 <p class="text-xs text-gray-500 mt-1">Select the radio button next to an option to mark it as correct.</p>
-             </div>
-
-             <div class="flex justify-end gap-3 pt-4">
-                 <button type="button" (click)="onAddQuestion()" [disabled]="!questionForm.get('question_id')?.value" class="px-4 py-2 text-gray-600 hover:text-gray-800">Clear / New</button>
-                 <button type="submit" [disabled]="questionForm.invalid" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded shadow-md disabled:opacity-50">
-                     Save Question
-                 </button>
-             </div>
-         </form>
-    </div>
-
-    <!-- Questions List -->
-    <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-gray-700 pl-2">Existing Questions ({{questions.length}})</h3>
-        <div *ngFor="let q of questions; let i = index" class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-            <div class="flex justify-between items-start">
-                <div class="flex-grow">
-                     <p class="font-medium text-gray-800 mb-2"><span class="text-gray-400 mr-2">Q{{i+1}}.</span>{{ q.question_name }}</p>
-                     <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm ml-6">
-                         <div [class.text-green-600]="q.option1 === q.correct_answer" [class.font-bold]="q.option1 === q.correct_answer">A. {{ q.option1 }}</div>
-                         <div [class.text-green-600]="q.option2 === q.correct_answer" [class.font-bold]="q.option2 === q.correct_answer">B. {{ q.option2 }}</div>
-                         <div [class.text-green-600]="q.option3 === q.correct_answer" [class.font-bold]="q.option3 === q.correct_answer">C. {{ q.option3 }}</div>
-                         <div [class.text-green-600]="q.option4 === q.correct_answer" [class.font-bold]="q.option4 === q.correct_answer">D. {{ q.option4 }}</div>
-                     </div>
-                </div>
-                <div class="flex flex-col gap-2 ml-4">
-                     <button (click)="editQuestion(q)" class="text-blue-500 hover:text-blue-700 p-1 rounded hover:bg-blue-50">
-                         <span class="material-symbols-outlined">edit</span>
-                     </button>
-                     <button (click)="deleteQuestion(q.question_id)" class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50">
-                        <span class="material-symbols-outlined">delete</span>
-                     </button>
-                </div>
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Exam (Subject)<span
+                class="text-red-500">*</span></label>
+            <select [(ngModel)]="targetExamId"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white shadow-sm">
+              <option [ngValue]="null" disabled>Select Exam</option>
+              <option *ngFor="let exam of courseExams" [ngValue]="exam.course_exam_id">{{ getExamName(exam.exam_data_id)
+                }}</option>
+            </select>
+          </div>
         </div>
+
+        <!-- Right Side: File Upload -->
+        <div
+          class="flex flex-col justify-center items-center p-6 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+          <div class="text-center">
+            <span class="material-symbols-outlined text-6xl text-gray-400 mb-2">upload_file</span>
+            <h3 class="text-lg font-medium text-gray-700 mb-1">Upload Excel File</h3>
+            <p class="text-xs text-gray-500 mb-4">Supported Format: .xlsx</p>
+
+            <input type="file" (change)="onFileChange($event)" accept=".xlsx" class="hidden" #fileInput>
+            <button (click)="fileInput.click()"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded shadow-md transition-transform transform hover:scale-105">
+              Choose File
+            </button>
+
+            <p *ngIf="selectedFileName" class="mt-3 text-sm text-gray-700 font-medium">
+              <span class="material-symbols-outlined text-sm align-middle mr-1">description</span>
+              {{ selectedFileName }}
+            </p>
+
+            <p *ngIf="excelData.length > 0" class="mt-2 text-sm text-green-600 font-semibold">
+              {{ excelData.length }} rows parsed successfully.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-8 flex justify-end pt-6 border-t border-gray-200">
+        <button (click)="uploadQuestions()" [disabled]="!targetCourseId || !targetExamId || excelData.length === 0"
+          class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+          Upload Questions
+        </button>
+      </div>
+
+      <!-- Instructions / Template Info -->
+      <div class="mt-8 bg-blue-50 p-4 rounded-md border border-blue-200">
+        <h4 class="text-sm font-bold text-blue-800 mb-2">Excel Template Instructions:</h4>
+        <p class="text-xs text-blue-700">Ensure your Excel file has the following column headers (case-sensitive):</p>
+        <ul class="list-disc list-inside text-xs text-blue-600 mt-1 ml-2">
+          <li><code>question_name</code> (The question text)</li>
+          <li><code>option1</code>, <code>option2</code>, <code>option3</code>, <code>option4</code> (The answer
+            choices)</li>
+          <li><code>correct_answer</code> (Must match exactly one of the options)</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

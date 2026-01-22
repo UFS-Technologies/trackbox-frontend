@@ -1,16 +1,19 @@
 
 import { Component, Input, OnInit, inject, signal, output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { course_Service } from '../../../services/course.Service';
 import { SharedModule } from '../../../../shared/shared.module';
 import { DialogBox_Component } from '../../../../shared/components/DialogBox/DialogBox.component';
 
+
+import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-admin-exam',
   standalone: true,
-  imports: [SharedModule, CommonModule, ReactiveFormsModule],
+  imports: [SharedModule, CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './admin-exam.component.html',
   styleUrl: './admin-exam.component.scss'
 })
@@ -29,6 +32,7 @@ export class AdminExamComponent implements OnInit {
   examDataList: any[] = [];
   courseExams: any[] = [];
   questions: any[] = [];
+  coursesList: any[] = []; // List of all courses for dropdown
 
   examDataForm: FormGroup;
   courseExamForm: FormGroup;
@@ -36,6 +40,12 @@ export class AdminExamComponent implements OnInit {
 
   selectedCourseExam: any = null;
   selectedExamData: any = null;
+  
+  // Excel Upload State
+  excelData: any[] = [];
+  targetCourseId: number | null = null;
+  targetExamId: number | null = null;
+  selectedFileName: string = '';
 
   constructor() {
     this.examDataForm = this.fb.group({
@@ -73,6 +83,22 @@ export class AdminExamComponent implements OnInit {
     this.isLoading = true;
     this.loadExamData();
     this.loadCourseExams();
+    this.loadAllCourses();
+  }
+  
+  loadAllCourses() {
+      this.course_Service_.get_course_names().subscribe((res: any) => {
+          console.log('get_course_names API response:', res);
+          // Handle nested array response
+          if (Array.isArray(res) && res.length > 0 && Array.isArray(res[0])) {
+              this.coursesList = res[0];
+          } else if (Array.isArray(res)) {
+              this.coursesList = res;
+          } else {
+              this.coursesList = [];
+          }
+          console.log('Courses loaded:', this.coursesList);
+      });
   }
 
   loadExamData() {
@@ -94,7 +120,16 @@ export class AdminExamComponent implements OnInit {
   loadCourseExams() {
     if (!this.Course_ID) return;
     this.course_Service_.Student_GetExams(this.Course_ID).subscribe((res: any) => {
-      this.courseExams = res;
+      console.log('Student_GetExams API response:', res);
+      // Handle nested array response
+      if (Array.isArray(res) && res.length > 0 && Array.isArray(res[0])) {
+          this.courseExams = res[0];
+      } else if (Array.isArray(res)) {
+          this.courseExams = res;
+      } else {
+          this.courseExams = [];
+      }
+      console.log('Course Exams loaded:', this.courseExams);
     });
   }
 
@@ -182,13 +217,105 @@ export class AdminExamComponent implements OnInit {
     });
   }
 
-  // Questions CRUD
+  // Questions CRUD - MODIFIED TO BE EXCEL UPLOAD
   manageQuestions(courseExam: any) {
     this.selectedCourseExam = courseExam;
-    this.loadQuestions(courseExam.course_exam_id);
+    this.targetExamId = courseExam.course_exam_id;
+    this.targetCourseId = this.Course_ID; // Default to current course
+    
+    // Ensure courseExams is loaded for current course
+    if (!this.courseExams || this.courseExams.length === 0) {
+      this.loadCourseExams();
+    }
+    
+    console.log('Navigate to Questions view:', {
+      targetCourseId: this.targetCourseId,
+      targetExamId: this.targetExamId,
+      coursesList: this.coursesList,
+      coursesListLength: this.coursesList?.length,
+      courseExams: this.courseExams,
+      courseExamsLength: this.courseExams?.length
+    });
+    
     this.setView('questions');
   }
 
+  onFileChange(evt: any) {
+    const target: DataTransfer = <DataTransfer>(evt.target);
+    if (target.files.length !== 1) {
+      alert('Please select only one file');
+      return;
+    }
+    
+    const file = target.files[0];
+    this.selectedFileName = file.name;
+    console.log('File selected:', this.selectedFileName);
+    
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+      this.excelData = XLSX.utils.sheet_to_json(ws);
+      
+      // Validation: Check headers
+      if (this.excelData.length > 0) {
+          const firstRow = this.excelData[0];
+          const requiredKeys = ['question_name', 'option1', 'option2', 'option3', 'option4', 'correct_answer'];
+          const fileKeys = Object.keys(firstRow);
+          const missing = requiredKeys.filter(k => !fileKeys.includes(k));
+          
+          if (missing.length > 0) {
+              alert(`Invalid Excel Format. Missing columns: ${missing.join(', ')}`);
+              this.excelData = []; // Clear invalid data
+              this.selectedFileName = '';
+              // clear file input value if possible, or just ignore
+              if (evt.target) evt.target.value = '';
+          }
+      }
+      
+      console.log('Parsed Excel Data:', this.excelData);
+    };
+    reader.readAsBinaryString(target.files[0]);
+  }
+
+  uploadQuestions() {
+      if (!this.targetCourseId || !this.targetExamId || this.excelData.length === 0) {
+          alert('Please select Course, Exam and Upload a File first (ensure file has data).');
+          return;
+      }
+      
+      this.isLoading = true;
+      
+      // Resolve IDs
+      const selectedExam = this.courseExams.find(e => e.course_exam_id === this.targetExamId);
+      const examDataId = selectedExam ? selectedExam.exam_data_id : this.selectedCourseExam?.exam_data_id;
+
+      const payload = {
+          exam_data_id: examDataId,
+          course_exam_id: this.targetExamId,
+          data: this.excelData
+      };
+      
+      console.log('Uploading payload:', payload);
+
+      this.course_Service_.Upload_Questions_Excel(payload).subscribe({
+          next: (res: any) => {
+              this.dialogBox.open(DialogBox_Component, { data: { Message: 'Questions Uploaded Successfully', Type: 'false' } });
+              this.isLoading = false;
+              this.setView('exam_list');
+              this.excelData = []; // Clear data
+          },
+          error: (err) => {
+              console.error(err);
+              this.dialogBox.open(DialogBox_Component, { data: { Message: 'Upload Failed', Type: 'true' } });
+              this.isLoading = false;
+          }
+      })
+  }
+
+  // Existing methods kept for safety but unused in new UI
   loadQuestions(courseExamId: number) {
     this.isLoading = true;
     this.course_Service_.Student_GetQuestions(courseExamId).subscribe((res: any) => {
@@ -198,59 +325,47 @@ export class AdminExamComponent implements OnInit {
   }
 
   onAddQuestion() {
-    this.questionForm.reset({
-      question_id: 0,
-      exam_data_id: this.selectedCourseExam.exam_data_id,
-      course_exam_id: this.selectedCourseExam.course_exam_id,
-      question_name: '',
-      option1: '',
-      option2: '',
-      option3: '',
-      option4: '',
-      correct_answer: ''
-    });
-    // We stay in the same view but show/hide the form or use a dialog
-    // For now, let's just toggle a boolean or use a simpler approach
+    // Unused
   }
 
   saveQuestion() {
-    if (this.questionForm.invalid) return;
-    this.isLoading = true;
-    const action = this.questionForm.value.question_id ? 'UPDATE' : 'INSERT';
-    const payload = { 
-      ...this.questionForm.value, 
-      action,
-      exam_data_id: this.selectedCourseExam.exam_data_id,
-      course_exam_id: this.selectedCourseExam.course_exam_id
-    };
-    this.course_Service_.Manage_Questions(payload).subscribe({
-      next: () => {
-        this.dialogBox.open(DialogBox_Component, { data: { Message: 'Question Saved', Type: 'false' } });
-        this.loadQuestions(this.selectedCourseExam.course_exam_id);
-        this.questionForm.reset();
-      },
-      error: () => this.isLoading = false
-    });
+    // Unused
   }
 
   editQuestion(q: any) {
-    this.questionForm.patchValue(q);
+   // Unused
   }
 
   deleteQuestion(id: number) {
-    const dialogRef = this.dialogBox.open(DialogBox_Component, { data: { Message: 'Delete this question?', Type: true } });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'Yes') {
-        this.course_Service_.Manage_Questions({ action: 'DELETE', question_id: id }).subscribe(() => {
-          this.loadQuestions(this.selectedCourseExam.course_exam_id);
-        });
-      }
-    });
+   // Unused
   }
 
   getExamName(examDataId: number) {
     const data = this.examDataList.find(d => d.exam_data_id === examDataId);
     return data ? data.exam_name : 'Unknown Exam';
+  }
+
+  onCourseChange() {
+      console.log('Course changed to:', this.targetCourseId);
+      // When course changes, reload exams for that course
+      if (this.targetCourseId) {
+           this.course_Service_.Student_GetExams(this.targetCourseId).subscribe((res: any) => {
+                console.log('Exams for course', this.targetCourseId, ':', res);
+                // Handle nested array response
+                if (Array.isArray(res) && res.length > 0 && Array.isArray(res[0])) {
+                    this.courseExams = res[0];
+                } else if (Array.isArray(res)) {
+                    this.courseExams = res;
+                } else {
+                    this.courseExams = [];
+                }
+                // Reset exam selection if not in list
+                if (!this.courseExams.find(e => e.course_exam_id === this.targetExamId)) {
+                    this.targetExamId = null;
+                }
+                console.log('Updated courseExams:', this.courseExams);
+            });
+      }
   }
 
   onClose() {

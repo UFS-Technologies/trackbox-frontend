@@ -251,7 +251,10 @@ Student_GetQuestions(course_exam_id: any) {
   return this.http.get(environment.BasePath + 'course/Student_GetQuestions/' + course_exam_id);
 }
 
+  Upload_Questions_Excel(data: any) {
+    return this.http.post(environment.BasePath + 'course/Upload_Questions_Excel', data);
+  }
+
 
 
 }
-
