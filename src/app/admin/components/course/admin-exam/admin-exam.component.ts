@@ -59,7 +59,8 @@ export class AdminExamComponent implements OnInit {
       Course_ID: [0],
       duration: [0, [Validators.required, Validators.min(1)]],
       questions: [0, [Validators.required, Validators.min(1)]],
-      passcount: [0, [Validators.required, Validators.min(1)]]
+      passcount: [0, [Validators.required, Validators.min(1)]],
+      Day: [1, [Validators.required, Validators.min(0)]]
     });
 
     this.questionForm = this.fb.group({
@@ -181,7 +182,8 @@ export class AdminExamComponent implements OnInit {
       Course_ID: this.Course_ID,
       duration: 60,
       questions: 10,
-      passcount: 5
+      passcount: 5,
+      Day: 1
     });
     this.setView('course_exam_form');
   }
