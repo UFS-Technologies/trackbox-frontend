@@ -268,13 +268,13 @@
     </div>
     
     
-    <div class="flex items-center mb-3">
+    <!-- <div class="flex items-center mb-3">
       <input type="checkbox" id="isGroupCall" 
              (change)="onGroupCallChange($event)" 
              [checked]="scheduledTeachers.length > 0" 
              class="mr-2">
       <label for="isGroupCall" class="text-gray-700">Is Group Call Involved</label>
-    </div>
+    </div> -->
     <div formArrayName="scheduledTeachers" class="col-span-2 flex flex-wrap gap-5">
       @for (teacherGroup of scheduledTeachers.controls; track teacherGroup; let i = $index) {
         @if(!teacherGroup.get('Delete_Status')?.value) {

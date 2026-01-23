@@ -229,6 +229,16 @@ examsList:any=[]
             this.batchDetails = '';
           }
           console.log('this.batch_Data: ', this.batch_Data);
+
+          const selectedSlotId = this.student_Course.get('Slot_Id')?.value;
+          if (selectedSlotId) {
+            const selectedSlotInfo = this.available_Time_Slots.find(
+              slot => slot.Slot_Id.toString() == selectedSlotId.toString()
+            );
+            if (selectedSlotInfo) {
+              this.slotDetails = selectedSlotInfo;
+            }
+          }
   
           if (this.available_Time_Slots.length == 0 && 
               this.view == 'courses' && 
@@ -476,6 +486,8 @@ shouldShowExistingImage(): boolean {
       Slot_Id: null,
       Batch_ID: null,
     });
+    this.slotDetails = null;
+    this.batchDetails = null;
   } 
 
   Search_student() {
