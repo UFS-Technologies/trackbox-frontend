@@ -367,7 +367,7 @@
       @if(student_Course.get('Course_ID')?.value){
       <!-- One on One Slot Selection -->
       <div class="space-y-2">
-        <label for="slot-id" class="block text-sm font-medium text-gray-700">One on One Slot</label>
+        <label for="slot-id" class="block text-sm font-medium text-gray-700">Timing</label>
         <select id="slot-id" (change)="onSlotChange($event)" formControlName="Slot_Id"
           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
           @if((optedCourseId==student_Course.get('Course_ID')?.value )&&selectedTime!=''){
@@ -451,7 +451,7 @@
         <!-- Selected Slot Details Card -->
         @if(student_Course.get('Slot_Id')?.value && student_Course.get('Slot_Id')?.value != '0'){
         <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
-          <h3 class="text-lg font-semibold text-gray-800 border-b pb-2">One-on-One Slot Details</h3>
+          <h3 class="text-lg font-semibold text-gray-800 border-b pb-2">Timing Details</h3>
           @if(slotDetails){
           <div class="space-y-3">
             <div class="flex justify-between">
