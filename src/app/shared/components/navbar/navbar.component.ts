@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
      console.log('result: ', result);
      
      if(result){
-      this.menuItems=result
+      this.menuItems=(result as any[]).filter(item => item.Menu_Name !== 'FeedBack');
       // 1 for admin   2 for student
       // this.user=='1'?this.menuItems= [
       //   { label: 'Student', link: '/admin/student', action: '' },

@@ -1,8 +1,8 @@
 @if(view == 'list') {
-<section class="border border-gray-300 shadow p-6 rounded-lg bg-white">
+<section class="border border-gray-300 shadow p-4 rounded-lg bg-white">
 
   <!-- Search and Filters Section -->
-  <div class="p-6 bg-white border-b border-gray-200">
+  <div class="p-4 bg-white border-b border-gray-200">
     <div class="flex flex-col md:flex-row gap-4 items-center">
       <!-- Search Input -->
       <div class="relative flex-grow w-full md:w-1/2">
@@ -70,7 +70,7 @@
 
   <!-- Faculty List -->
   @for( item of user_Data; track $index) {
-  <div class="mt-5 border border-gray-300 p-3 rounded-lg relative" style=" padding-top: 31px;">
+  <div class="mt-3 border border-gray-300 p-3 rounded-lg relative" style=" padding-top: 15px;">
     <!-- HOD Ribbon -->
     <!-- @if(item.User_Type_Id == 3){
 
@@ -81,24 +81,19 @@
 
     <div class="flex gap-6 justify-between">
       <div class="w-4/12">
-        <div class="flex justify-between items-center">
-          <span class="col-span-2 xl:col-span-2 lg:col-span-4 font-medium textName">Name</span>
-          <span class="col-span-12 xl:col-span-3 text-base  leading-7">{{ item.First_Name }} {{item.Last_Name}}</span>
+        <div class="flex items-center gap-3">
+          <span class="text-base font-medium leading-7">{{ item.First_Name }} {{item.Last_Name}}</span>
+          @if(item.PhoneNumber) {
+            <span class="text-gray-400">|</span>
+            <span class="text-base leading-7 text-gray-600">{{ item.PhoneNumber }}</span>
+          }
         </div>
-        <div class="flex justify-between items-center">
-          <span class="col-span-2 xl:col-span-2 lg:col-span-4 font-medium textName">Email</span>
-          <span class="col-span-12 xl:col-span-3 text-base  leading-7">{{ item.Email }}</span>
-        </div>
-        <div class="flex justify-between items-center">
-          <span class="col-span-2 xl:col-span-2 lg:col-span-4 font-medium textName">Phone Number</span>
-          <span class="col-span-12 xl:col-span-3 text-base  leading-7">{{ item.PhoneNumber || '' }}</span>
-        </div>
-        @if(item.User_Type_Id == 3 ){
+        <!-- @if(item.User_Type_Id == 3 ){
         <div class="flex  justify-between items-center">
           <span class="col-span-2 xl:col-span-2 lg:col-span-4 font-medium textName">Course Name </span>
           <span class="col-span-12 xl:col-span-3 text-base  leading-7">{{ item.Course_Name || '' }}</span>
         </div>
-        }
+        } -->
 
         <!-- @if(item.User_Type_Id == 2){
         <div class="flex gap-2 mt-2">

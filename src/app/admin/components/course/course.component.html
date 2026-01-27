@@ -29,7 +29,7 @@
   </nav>
 
   @if(view=='students'){
-  <section class="border border-gray-300 shadow p-6 rounded-lg bg-white">
+  <section class="border border-gray-300 shadow p-4 rounded-lg bg-white">
     <div class="flex justify-between mb-4">
       <h2 class="text-lg font-bold">Enrolled Students</h2>
       <button class="border border-blue hover:bg-gray-500 hover:text-white text-black font-bold py-2 px-4 rounded"
@@ -184,7 +184,7 @@
   </button>
 
 
-  <div class="overflow-y-auto h-[69vh] pr-2 mt-5">
+  <div class="overflow-y-auto h-[69vh] pr-2 mt-3">
     <div class="flex flex-col md:flex-row items-stretch space-y-4 md:space-y-0 md:space-x-4">
       <!-- Search Input -->
       <div class="relative flex-grow">
@@ -200,7 +200,7 @@
     </div>
     @for(course of course_Data;track $index){
 
-    <div class="rounded-lg mt-5 p-4 shadow-lg border border-gray-200">
+    <div class="rounded-lg mt-3 p-4 shadow-lg border border-gray-200">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 w-full p-4">
         <!-- Course Info Section -->
         <div class="w-full lg:w-auto lg:min-w-[60%]">
@@ -869,7 +869,7 @@
   </div>
   } @else if(view=='exam_management') {
   <app-admin-exam [Course_ID]="course_Form.get('Course_ID')?.value" [Course_Name]="SelecetedCourse"
-    (closeClicked)="setView('list')"></app-admin-exam>
+    [days]="allDaysDatas()" (closeClicked)="setView('list')"></app-admin-exam>
   } @else {
 
 
@@ -1012,7 +1012,7 @@
             <div formArrayName="scheduledTeachers" class=" col-span-full p-6 space-y-8">
               <div class="flex items-center justify-between mb-8">
                 <label for="Sections" class="text-lg font-semibold text-gray-800">
-                  1 to 1 Class Teachers
+                  Faculty
                 </label>
                 <button (click)="addTeacher()"
                   class="inline-flex items-center px-4 py-2 bg-blue text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">

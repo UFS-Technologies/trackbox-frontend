@@ -24,9 +24,10 @@ export class AdminExamComponent implements OnInit {
 
   @Input() Course_ID: number = 0;
   @Input() Course_Name: string = '';
+  @Input() days: any[] = [];
   readonly closeClicked = output<void>();
 
-  view: 'exam_list' | 'exam_data' | 'course_exam_form' | 'questions' = 'exam_list';
+  view: 'exam_list' | 'exam_data' | 'course_exam_form' | 'questions' | 'available_questions' = 'exam_list';
   isLoading = false;
 
   examDataList: any[] = [];
@@ -321,9 +322,25 @@ export class AdminExamComponent implements OnInit {
   loadQuestions(courseExamId: number) {
     this.isLoading = true;
     this.course_Service_.Student_GetQuestions(courseExamId).subscribe((res: any) => {
-      this.questions = res;
+      // Log for debugging
+      console.log('Student_GetQuestions response:', res);
+      
+      this.questions = [];
+      if (res) {
+        if (Array.isArray(res) && Array.isArray(res[0])) {
+          this.questions = res[0];
+        } else if (Array.isArray(res)) {
+          this.questions = res;
+        }
+      }
       this.isLoading = false;
     });
+  }
+
+  showAvailableQuestions(courseExam: any) {
+    this.selectedCourseExam = courseExam;
+    this.loadQuestions(courseExam.course_exam_id);
+    this.setView('available_questions');
   }
 
   onAddQuestion() {
@@ -339,7 +356,19 @@ export class AdminExamComponent implements OnInit {
   }
 
   deleteQuestion(id: number) {
-   // Unused
+    const dialogRef = this.dialogBox.open(DialogBox_Component, { data: { Message: 'Delete this question?', Type: true } });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'Yes') {
+        this.isLoading = true;
+        this.course_Service_.Manage_Questions({ action: 'DELETE', question_id: id }).subscribe({
+          next: () => {
+            this.loadQuestions(this.selectedCourseExam.course_exam_id);
+            this.dialogBox.open(DialogBox_Component, { data: { Message: 'Deleted Successfully', Type: 'false' } });
+          },
+          error: () => this.isLoading = false
+        });
+      }
+    });
   }
 
   getExamName(examDataId: number) {

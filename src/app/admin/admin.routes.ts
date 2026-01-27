@@ -62,11 +62,11 @@ export const ADMIN_ROUTES: Routes = [
     component: ModuleComponent,
     data: { breadcrumb: 'Levels'}
   },
-  {
-    path: 'reviews',
-    component: ReviewsComponent,
-    data: { breadcrumb: 'FeedBack'}
-  },
+//   {
+//     path: 'reviews',
+//     component: ReviewsComponent,
+//     data: { breadcrumb: 'FeedBack'}
+//   },
   {
     path: 'student_appInfo',
     component: StudentAppinfoComponent,
