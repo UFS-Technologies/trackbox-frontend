@@ -206,13 +206,13 @@
         <div class="w-full lg:w-auto lg:min-w-[60%]">
           <div class="flex flex-col gap-2">
             <div class="flex flex-wrap items-start gap-3">
-              <span class="textName font-medium whitespace-nowrap">Course Name:</span>
+              <!-- <span class="textName font-medium whitespace-nowrap">Course Name:</span> -->
               <span class="text-info text-base break-words">{{course.Course_Name}}</span>
             </div>
-            <div class="flex flex-wrap items-center gap-3">
+            <!-- <div class="flex flex-wrap items-center gap-3">
               <span class="textName font-medium whitespace-nowrap">Price:</span>
               <span class="text-info text-base">{{course.Price}}</span>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -235,7 +235,7 @@
             <button (click)="View_Batch_Course(course.Course_ID,course.Course_Name);clearRoute()"
               class="flex items-center h-10 px-4 py-2 bg-sky-50 text-sky-700 rounded-md hover:bg-blue-100 transition-all duration-300 transform hover:scale-105 whitespace-nowrap min-w-[120px]">
               <span class="material-symbols-outlined mr-2">live_tv</span>
-              <span class="font-medium">View Batch</span>
+              <span class="font-medium">Batch</span>
             </button>
 
             <button (click)="View_Course_Students(course.Course_ID,course.Course_Name);clearRoute()"
@@ -560,13 +560,13 @@
         <!-- Exam Details -->
         <div formGroupName="exam" class="bg-gray-50 p-6 rounded-lg">
           @if(section && section['Have_Main_Question']) { @if(section && section['Is_Main_Question_Text']) {
-          <div class="mb-4">
+          <!-- <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-1">Main Question</label>
             <textarea formControlName="Main_Question" class="w-full px-3 py-2 border rounded-md"
               placeholder="Enter the main question" rows="5"></textarea>
-          </div>
+          </div> -->
           } @else {
-          <div class="grid grid-cols-3 gap-4 mb-4">
+          <!-- <div class="grid grid-cols-3 gap-4 mb-4">
             <div class="col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-1">Audio</label>
 
@@ -599,7 +599,7 @@
               }
               }
             </div>
-          </div>
+          </div> -->
           } } @if(section && section['Have_Supporting_Document']) {
           <!-- <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Question File</label>
@@ -612,7 +612,7 @@
                         </div>
                     </div> -->
           } @if(section && section['Have_Answer_Key']) {
-          <div class="mb-4">
+          <!-- <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Answer Key</label>
             <div
               class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors duration-300"
@@ -625,7 +625,7 @@
               </p>
               <p class="text-xs text-gray-500 mt-2">PDF format only</p>
             </div>
-          </div>
+          </div> -->
           }
         </div>
       </div>
