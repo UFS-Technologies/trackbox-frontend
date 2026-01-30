@@ -10,6 +10,7 @@ User_Type_Id:number;
 User_Role_Id:number;
 User_Status:number;
 Course_Name:any
+Registered_Date:any
 constructor(values: Object = {})  
 {
 Object.assign(this, values) 

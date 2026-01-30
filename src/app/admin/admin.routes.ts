@@ -11,6 +11,7 @@ import { StudentReportComponent } from './components/student-report/student-repo
 import { ModuleComponent } from './components/module/module.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
 import { StudentAppinfoComponent } from './components/student-appinfo/student-appinfo.component';
+import { ReportComponent } from './components/report/report.component';
 export const ADMIN_ROUTES: Routes = [
   {
     path: "",
@@ -61,6 +62,11 @@ export const ADMIN_ROUTES: Routes = [
     path: 'course_module',
     component: ModuleComponent,
     data: { breadcrumb: 'Levels'}
+  },
+  {
+    path: 'report',
+    component: ReportComponent,
+    data: { breadcrumb: 'Report'}
   },
 //   {
 //     path: 'reviews',

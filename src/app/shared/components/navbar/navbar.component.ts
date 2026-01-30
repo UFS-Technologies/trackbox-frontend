@@ -38,6 +38,12 @@ export class NavbarComponent implements OnInit {
      
      if(result){
       this.menuItems=(result as any[]).filter(item => item.Menu_Name !== 'FeedBack');
+      this.menuItems.push({
+        Menu_Name: 'Report',
+        label: 'Report',
+        Route: '/admin/report',
+        link: '/admin/report'
+      });
       // 1 for admin   2 for student
       // this.user=='1'?this.menuItems= [
       //   { label: 'Student', link: '/admin/student', action: '' },
@@ -117,6 +123,8 @@ getImageSource(label: string, isActive: boolean): string {
     case 'Exam Type':
       return isActive ? 'assets/images/navbar/exam-type-active.png' : 'assets/images/navbar/exam-type.svg';
     case 'Question':
+      return isActive ? 'assets/images/navbar/questions-active.png' : 'assets/images/navbar/questions.svg';
+    case 'Report':
       return isActive ? 'assets/images/navbar/questions-active.png' : 'assets/images/navbar/questions.svg';
     default:
       return ''; // Handle other cases if needed

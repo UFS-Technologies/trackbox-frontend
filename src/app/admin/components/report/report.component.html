@@ -1,0 +1,114 @@
+<div class="p-4">
+    <!-- Filters Section -->
+    <section class="bg-white p-6 rounded-lg shadow-sm mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+            <!-- Course Filter -->
+            <form class="w-full">
+                <mat-form-field class="w-full">
+                    <mat-label>Course</mat-label>
+                    <input #Course
+                           type="text"
+                           placeholder="Pick one"
+                           matInput
+                           [formControl]="selectedCourse"
+                           [matAutocomplete]="auto"
+                           (input)="filter('course')"
+                           (focus)="filter('course')">
+                    <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete"> 
+                        <mat-option *ngFor="let option of coursefilteredOptions" [value]="option">
+                            {{option['Course_Name']}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </form>
+
+            <!-- Student Filter -->
+            <form class="w-full">
+                <mat-form-field class="w-full">
+                    <mat-label>Student</mat-label>
+                    <input #Student
+                           type="text"
+                           placeholder="Pick one"
+                           matInput
+                           [formControl]="selectedStudent"
+                           [matAutocomplete]="auto2"
+                           (input)="filter('student')"
+                           (focus)="filter('student')">
+                    <mat-autocomplete  
+                                      #auto2="matAutocomplete" 
+                                      
+                                      [displayWith]="displayFn">
+                        @for (option of studentfilteredOptions; track option) {
+                            <mat-option [value]="option">{{option['First_Name']}}</mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+            </form>
+
+             <!-- Action Buttons -->
+            <div class="flex justify-start gap-4 mt-2">
+                <button (click)="fetchReportData()" 
+                        mat-raised-button 
+                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <mat-icon class="mr-2">search</mat-icon>
+                    Search
+                </button>
+                
+                <button (click)="clearFilters()" 
+                        mat-raised-button 
+                        class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                    <mat-icon class="mr-2">clear</mat-icon>
+                    Clear
+                </button>
+            </div>
+        </div>
+
+       
+    </section>
+
+    <!-- Table Section -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 font-semibold tracking-wider">Student Name</th>
+                    <th class="px-6 py-3 font-semibold tracking-wider">Course Name</th>
+                    <th class="px-6 py-3 font-semibold tracking-wider">Exam Name</th>
+                    <th class="px-6 py-3 font-semibold tracking-wider text-center">Score</th>
+                    <th class="px-6 py-3 font-semibold tracking-wider text-center">Percentage</th>
+                    <th class="px-6 py-3 font-semibold tracking-wider text-center">Result</th>
+                    <th class="px-6 py-3 font-semibold tracking-wider text-right">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of tableData" 
+                    class="bg-white border-b hover:bg-gray-50 transition duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap">{{row.First_Name}} {{row.Last_Name}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{row.Course_Name}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{row.exam_name}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                        <span class="font-medium">{{row.obtained_mark}}</span> 
+                        <span class="text-gray-400 text-xs">/ {{row.total_mark}}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center">{{row.percentage}}%</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full"
+                              [ngClass]="{
+                                'bg-green-100 text-green-800': row.result_status === 'Pass',
+                                'bg-red-100 text-red-800': row.result_status === 'Fail'
+                              }">
+                            {{row.result_status}}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right">{{row.created_at | date:'mediumDate'}}</td>
+                </tr>
+                <tr *ngIf="!tableData?.length">
+                    <td colspan="10" 
+                        class="px-6 py-8 text-center text-gray-500 italic">
+                        No exam results found for the selected criteria.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

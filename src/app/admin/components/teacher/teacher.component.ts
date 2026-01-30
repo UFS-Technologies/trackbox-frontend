@@ -81,6 +81,7 @@ export class TeacherComponent implements OnInit {
       Device_ID: [''],
       Profile_Photo_Path: [""],
       Profile_Photo_Name: ["",],
+      Registered_Date: [new Date(), Validators.required],
       Hod:[false],
       Course_ID: [[]],  // Multi-select initialized as an array,
       teacherCourses: this.fb.array([])
@@ -297,6 +298,7 @@ console.log('this.user_Form.value: ', this.user_Form.value);
       User_Type_Id: 2,
       User_Role_Id: null,
       User_Status: null,
+      Registered_Date: new Date(),
       Hod:false,
       Course_ID: [[]]
 
@@ -384,6 +386,10 @@ console.log('this.user_Form.value: ', this.user_Form.value);
     console.log('user_e: ', user_e);
     this.isLoading = true;
       this.view = 'edit';
+
+      if (user_e.Registered_Date) {
+        user_e.Registered_Date = new Date(user_e.Registered_Date).toISOString().split('T')[0];
+      }
 
         this.user_Form.patchValue(user_e);
         this.loadExistingData(this.user_Form.get('User_ID')?.value);
