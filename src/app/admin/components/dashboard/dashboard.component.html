@@ -1,24 +1,34 @@
-<!-- dashboard.component.html -->
-<div class=" h-100 flex justify-center gap-5" style="width: 100%; height: 100%;">
-
-
-  <!-- dashboard.component.html -->
-<div class="chart-container">
+<div class="dashboard-wrapper">
+  <!-- Existing Popular Course Chart -->
+  <div class="chart-container">
     <h2>Popular Course</h2>
     <canvas baseChart
-    [data]="barChartData"
-    [options]="barChartOptions"
-    [type]="barChartType"
-    [legend]="barChartLegend">
-</canvas>
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType"
+            [legend]="barChartLegend">
+    </canvas>
   </div>
   
+  <!-- Existing Month Wise Enrollment Chart -->
   <div class="chart-container">
-    <h2>Month Wise Student Enrollment </h2>
+    <h2>Month Wise Student Enrollment</h2>
     <canvas baseChart
-                [data]="barChartData2"
-                [options]="barChartOptions"
-                [type]="barChartType"
-                [legend]="barChartLegend">
-        </canvas>
-  </div>  </div>
+            [data]="barChartData2"
+            [options]="barChartOptions"
+            [type]="barChartType"
+            [legend]="barChartLegend">
+    </canvas>
+  </div>
+
+  <!-- New Course Wise Monthly Enrollment Line Chart (Below) -->
+  <div class="chart-container full-width">
+    <h2>Course Wise Monthly Enrollment</h2>
+    <canvas baseChart
+            [data]="lineChartData"
+            [options]="lineChartOptions"
+            [type]="'line'"
+            [legend]="true">
+    </canvas>
+  </div>
+</div>
