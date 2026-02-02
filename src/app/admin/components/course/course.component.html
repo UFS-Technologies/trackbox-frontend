@@ -646,15 +646,27 @@
   </div>
   } @else if(view=='content_list') {
   <div class="container mx-auto ">
-    <div class="flex justify-end">
+    <div class="flex justify-between items-center mb-4">
+      <div class="flex gap-3">
+        <button type="button" (click)="addContent()"
+          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+          <i class="fas fa-plus mr-2"></i> Add Content
+        </button>
+        <button type="button" (click)="toggleContentFilters()"
+          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <i class="fas fa-search mr-2"></i> {{ showContentFilters ? 'Hide Search' : 'Search' }}
+        </button>
+      </div>
 
       <button
-        class="border  border-blue hover:bg-gray-500 me-3 mb-2 hover:text-white text-black font-bold py-2 px-4 rounded"
+        class="border border-blue hover:bg-gray-500 hover:text-white text-black font-bold py-2 px-4 rounded"
         (click)="Close_Click()">
         Close
       </button>
     </div>
     <div class=" bg-gray-50 rounded-lg shadow-md">
+
+      @if(showContentFilters) {
 
 
 
@@ -721,14 +733,8 @@
           </div>
         </div>
 
-        <div class="flex justify-between">
-
-          <button type="button" (click)="addContent()"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-            <i class="fas fa-plus mr-2"></i> Add Content
-          </button>
-        </div>
       </form>
+      }
 
 
 

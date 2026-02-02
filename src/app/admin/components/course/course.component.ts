@@ -106,6 +106,11 @@ export class CourseComponent implements OnInit, OnDestroy  {
   searchTimeout: any;
 
   view: 'students' | 'list' | 'details' | 'exam_students' | 'exam_students_Details'|'form' |'Batch_Course'|'course_content_details'|'content_list'|'exam_management'= 'students';
+  showContentFilters: boolean = false;
+
+  toggleContentFilters() {
+    this.showContentFilters = !this.showContentFilters;
+  }
   navigationItems: { view: string, label: string }[] = [];
   invalidDetails: InvalidDetail[]=[];
   getTotalContentItems: any;
