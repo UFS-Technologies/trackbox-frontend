@@ -42,36 +42,36 @@
       <table class="min-w-full bg-white border border-gray-300">
         <thead class="bg-gray-100 border-b-2 border-gray-300">
           <tr>
-            <th
+            <th rowspan="2"
               class="px-6 py-3 border border-gray-300 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
               Student Name
             </th>
-            <th colspan="2"
+            <!-- <th
               class="px-6 py-3 border border-gray-300 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
               Batch Information
             </th>
             <th colspan="2"
               class="px-6 py-3 border border-gray-300 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
               1 on 1 Information
-            </th>
+            </th> -->
           </tr>
           <tr class="bg-gray-50">
-            <th class="px-6 py-3 border border-gray-300"></th>
+            <!-- <th class="px-6 py-3 border border-gray-300"></th> -->
             <th
               class="px-6 py-3 border border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Batch
             </th>
-            <th
+            <!-- <th
               class="px-6 py-3 border border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
               Batch Faculty Name
+            </th> -->
+            <th
+              class="px-6 py-3 border border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              Faculty Name
             </th>
             <th
               class="px-6 py-3 border border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              1 on 1 Faculty Name
-            </th>
-            <th
-              class="px-6 py-3 border border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              1 on 1 Time Slot (Requested / Allocated)
+              Time Slot (Requested / Allocated)
             </th>
           </tr>
         </thead>
@@ -87,7 +87,12 @@
             <!-- Batch Information -->
             <td class="px-6 py-4 border border-gray-300 whitespace-nowrap text-sm text-gray-600">
               <div class="relative">
-                <select [(ngModel)]="item.Batch_ID" (change)="changeBatch(item.Student_ID, item.Batch_ID)"
+                @for(batch of course_Batches; track $index) {
+                  @if(batch['Batch_ID'] == item.Batch_ID) {
+                    {{ batch['Batch_Name'] }}
+                  }
+                  }
+                <!-- <select [(ngModel)]="item.Batch_ID" (change)="changeBatch(item.Student_ID, item.Batch_ID)"
                   style="    font-size: 0.775rem !important;"
                   class="block w-full px-3 py-2 pr-8 text-sm border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none sm:max-w-xs">
                   <option [value]="null">Select</option>
@@ -96,15 +101,15 @@
                   <option [value]="batch['Batch_ID']">{{ batch['Batch_Name'] }}</option>
                   }
                   }
-                </select>
+                </select> -->
 
               </div>
             </td>
 
 
-            <td class="px-6 py-4 border border-gray-300 whitespace-nowrap text-sm text-gray-600">
+            <!-- <td class="px-6 py-4 border border-gray-300 whitespace-nowrap text-sm text-gray-600">
               {{ item.Teacher_Name_Batch }}
-            </td>
+            </td> -->
 
             <!-- 1 on 1 Information (with vertical line separator) -->
             <td class="px-6 py-4 border border-gray-300 whitespace-nowrap text-sm text-gray-600">
@@ -125,10 +130,10 @@
               } @else {
               <div class="flex items-center">
                 <span>{{ item.Teacher_Name_One_On_One }}</span>
-                <span class="material-symbols-outlined cursor-pointer ml-2 text-gray-500 text-lg"
+                <!-- <span class="material-symbols-outlined cursor-pointer ml-2 text-gray-500 text-lg"
                   (click)="teacherEditMode[$index] = true">
                   edit
-                </span>
+                </span> -->
               </div>
               }
             </td>
@@ -155,10 +160,10 @@
                 <div class="flex items-center mt-2">
                   <span class="text-sm text-gray-800">Allocated: {{ item.allocatedStartTime }} - {{
                     item.allocatedEndTime }}</span>
-                  <span class="material-symbols-outlined cursor-pointer ml-2 text-gray-500 text-lg"
+                  <!-- <span class="material-symbols-outlined cursor-pointer ml-2 text-gray-500 text-lg"
                     (click)="slot_editMode[$index] = true">
                     edit
-                  </span>
+                  </span> -->
                 </div>
                 }
               </div>

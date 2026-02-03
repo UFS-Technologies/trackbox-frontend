@@ -15,12 +15,13 @@ export class DashboardComponent implements OnInit {
 
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     plugins: {
       legend: {
+        position: 'right',
         labels: {
           font: {
-            size: 10,
+            size: 12,
             weight: 'bold'
           }
         }
@@ -31,14 +32,22 @@ export class DashboardComponent implements OnInit {
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
 
-  public pieChartData: ChartData<'pie'> = {
+  public studentStatusPageData: ChartData<'pie'> = {
     labels: [],
     datasets: []
   };
 
-  public pieChartData2: ChartData<'pie'> = {
+  public studentPerformanceData: ChartData<'bar'> = {
     labels: [],
     datasets: []
+  };
+
+  public summaryMetrics = {
+    activeStudents7Days: 0,
+    newRegistrationsToday: 0,
+    newRegistrations7Days: 0,
+    courseCompletionRate: 0,
+    batchAttendanceRate: 0
   };
 
   public barChartOptions: any = {
@@ -121,6 +130,7 @@ export class DashboardComponent implements OnInit {
     this.getDashboardData();
   }
 
+
   getDashboardData(): void {
     this.userService.Get_Dashboard().subscribe(
       (data) => {
@@ -129,6 +139,7 @@ export class DashboardComponent implements OnInit {
           'July', 'August', 'September', 'October', 'November', 'December'
         ];
         
+        // 1. Popular Course (Bar)
         this.barChartData = {
           labels: data[0].map((ele: any) => ele.Course_Name),
           datasets: [{
@@ -139,6 +150,7 @@ export class DashboardComponent implements OnInit {
           }]
         };
 
+        // 2. Month Wise Enrollment (Bar)
         this.barChartData2 = {
           labels: allMonths,
           datasets: [{
@@ -152,8 +164,46 @@ export class DashboardComponent implements OnInit {
           }]
         };
 
+        // 3. Course Wise Monthly Enrollment (Line)
         if (data[2]) {
           this.processLineChartData(data[2], allMonths);
+        }
+
+        // 4. Student Status (Pie)
+        if (data[3]) {
+          this.studentStatusPageData = {
+            labels: data[3].map((ele: any) => ele.Status),
+            datasets: [{
+              data: data[3].map((ele: any) => ele.Count),
+              backgroundColor: ['#66BB6A', '#EF5350'],
+              hoverBackgroundColor: ['#81C784', '#EF9A9A']
+            }]
+          };
+        }
+
+        // 5. Student Performance (Bar)
+        if (data[4]) {
+          this.studentPerformanceData = {
+            labels: data[4].map((ele: any) => `${ele.First_Name} ${ele.Last_Name}`),
+            datasets: [{
+              data: data[4].map((ele: any) => parseFloat(ele.Avg_Mark).toFixed(2)),
+              label: 'Avg Exam Mark',
+              backgroundColor: '#7E57C2',
+              hoverBackgroundColor: '#9575CD'
+            }]
+          };
+        }
+
+        // 6. Summary Metrics
+        if (data[5] && data[5][0]) {
+          const metrics = data[5][0];
+          this.summaryMetrics = {
+            activeStudents7Days: metrics.Active_Students_7Days,
+            newRegistrationsToday: metrics.New_Registrations_Today,
+            newRegistrations7Days: metrics.New_Registrations_7Days,
+            courseCompletionRate: parseFloat(metrics.Global_Completion_Rate).toFixed(1) as any,
+            batchAttendanceRate: parseFloat(metrics.Global_Attendance_Rate).toFixed(1) as any
+          };
         }
       },
       (error) => {

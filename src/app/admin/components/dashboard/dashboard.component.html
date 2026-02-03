@@ -1,4 +1,5 @@
 <div class="dashboard-wrapper">
+
   <!-- Existing Popular Course Chart -->
   <div class="chart-container">
     <h2>Popular Course</h2>
@@ -21,7 +22,7 @@
     </canvas>
   </div>
 
-  <!-- New Course Wise Monthly Enrollment Line Chart (Below) -->
+  <!-- New Course Wise Monthly Enrollment Line Chart -->
   <div class="chart-container full-width">
     <h2>Course Wise Monthly Enrollment</h2>
     <canvas baseChart
@@ -31,4 +32,52 @@
             [legend]="true">
     </canvas>
   </div>
+
+  <div class="section-divider">
+    <span>Student Analysis</span>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <h3>Active Students</h3>
+      <div class="metric-value">{{ summaryMetrics.activeStudents7Days }}</div>
+      <p class="metric-desc">Accessed in last 7 days</p>
+    </div>
+    <div class="metric-card">
+      <h3>New Registrations</h3>
+      <div class="metric-value">{{ summaryMetrics.newRegistrationsToday }}</div>
+      <p class="metric-desc">+{{ summaryMetrics.newRegistrations7Days }} this week</p>
+    </div>
+    <div class="metric-card">
+      <h3>Course Completion</h3>
+      <div class="metric-value">{{ summaryMetrics.courseCompletionRate }}%</div>
+      <p class="metric-desc">Avg. across all students</p>
+    </div>
+    <div class="metric-card">
+      <h3>Batch Attendance</h3>
+      <div class="metric-value">{{ summaryMetrics.batchAttendanceRate }}%</div>
+      <p class="metric-desc">Current day average</p>
+    </div>
+  </div>
+
+  <div class="chart-container pie-container">
+    <h2>Student Status</h2>
+    <canvas baseChart
+            [data]="studentStatusPageData"
+            [options]="pieChartOptions"
+            [type]="pieChartType"
+            [legend]="pieChartLegend">
+    </canvas>
+  </div>
+
+  <div class="chart-container">
+    <h2>Top 10 Students (Performance)</h2>
+    <canvas baseChart
+            [data]="studentPerformanceData"
+            [options]="barChartOptions"
+            [type]="barChartType"
+            [legend]="barChartLegend">
+    </canvas>
+  </div>
+
 </div>
