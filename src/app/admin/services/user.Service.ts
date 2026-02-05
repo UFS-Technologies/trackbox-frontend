@@ -157,6 +157,8 @@ export class user_Service {
     );
     }
 
-    
+    Get_Dashboard_Metric_Details(type: string): Observable<any> {
+        return this.http.get(environment.BasePath + 'user/Get_Dashboard_Metric_Details/' + type);
+    }
 }
 

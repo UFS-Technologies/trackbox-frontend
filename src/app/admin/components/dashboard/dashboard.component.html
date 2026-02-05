@@ -38,22 +38,22 @@
   </div>
 
   <div class="metrics-grid">
-    <div class="metric-card">
+    <div class="metric-card clickable" (click)="navigateToDetails('active_students')">
       <h3>Active Students</h3>
       <div class="metric-value">{{ summaryMetrics.activeStudents7Days }}</div>
       <p class="metric-desc">Accessed in last 7 days</p>
     </div>
-    <div class="metric-card">
+    <div class="metric-card clickable" (click)="navigateToDetails('new_registrations')">
       <h3>New Registrations</h3>
       <div class="metric-value">{{ summaryMetrics.newRegistrationsToday }}</div>
       <p class="metric-desc">+{{ summaryMetrics.newRegistrations7Days }} this week</p>
     </div>
-    <div class="metric-card">
+    <div class="metric-card clickable" (click)="navigateToDetails('course_completion')">
       <h3>Course Completion</h3>
       <div class="metric-value">{{ summaryMetrics.courseCompletionRate }}%</div>
       <p class="metric-desc">Avg. across all students</p>
     </div>
-    <div class="metric-card">
+    <div class="metric-card clickable" (click)="navigateToDetails('batch_attendance')">
       <h3>Batch Attendance</h3>
       <div class="metric-value">{{ summaryMetrics.batchAttendanceRate }}%</div>
       <p class="metric-desc">Current day average</p>

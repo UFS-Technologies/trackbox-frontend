@@ -13,7 +13,7 @@
   padding: 25px;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  width: calc(50% - 20px);
+  width: calc(50% - 10px);
   min-width: 450px;
   height: 400px;
   display: flex;
@@ -32,10 +32,8 @@
   }
 
   &.pie-container {
-    height: 350px;
-
     canvas {
-      max-height: 250px;
+      max-height: 280px;
       margin: 0 auto;
     }
   }
@@ -90,9 +88,10 @@
 
 .metric-card {
   background: white;
-  border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   border: 1px solid #edf2f7;
   transition: all 0.3s ease;
   display: flex;
@@ -102,9 +101,14 @@
   text-align: center;
   min-height: 160px;
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      background: #f8fafc;
+    }
   }
 
   h3 {

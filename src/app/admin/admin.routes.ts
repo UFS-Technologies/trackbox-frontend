@@ -12,6 +12,7 @@ import { ModuleComponent } from './components/module/module.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
 import { StudentAppinfoComponent } from './components/student-appinfo/student-appinfo.component';
 import { ReportComponent } from './components/report/report.component';
+import { MetricDetailsComponent } from './components/dashboard/details/metric-details.component';
 export const ADMIN_ROUTES: Routes = [
   {
     path: "",
@@ -23,6 +24,11 @@ export const ADMIN_ROUTES: Routes = [
     component:DashboardComponent, 
     data: { breadcrumb: 'Dashboard' } 
 
+  },
+  {
+    path: 'dash/details/:type',
+    component: MetricDetailsComponent,
+    data: { breadcrumb: 'Details' }
   },
   {
     path: 'category',

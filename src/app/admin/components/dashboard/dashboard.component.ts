@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { HttpClient } from '@angular/common/http';
 import { user_Service } from '../../services/user.Service';
@@ -12,6 +13,7 @@ import { SharedModule } from '../../../shared/shared.module';
 export class DashboardComponent implements OnInit {
   private http = inject(HttpClient);
   private userService = inject(user_Service);
+  private router = inject(Router);
 
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -240,5 +242,9 @@ export class DashboardComponent implements OnInit {
       labels: allMonths,
       datasets: datasets
     };
+  }
+
+  navigateToDetails(type: string): void {
+    this.router.navigate(['/admin/dash/details', type]);
   }
 }

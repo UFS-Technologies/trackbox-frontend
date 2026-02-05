@@ -1,0 +1,92 @@
+<div class="details-wrapper">
+  <div class="header-section">
+    <button (click)="goBack()" class="back-btn">
+      <i class="fa fa-arrow-left"></i> Back to Dashboard
+    </button>
+    <h2>{{ title }}</h2>
+  </div>
+
+  <div class="table-container card">
+    <div *ngIf="loading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Loading details...</p>
+    </div>
+
+    <table *ngIf="!loading && data.length > 0" class="details-table">
+      <thead>
+        <tr>
+          <th *ngFor="let header of headers">{{ header }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of paginatedData; let i = index">
+          <td *ngFor="let col of columns">
+            <span *ngIf="col === 'Sl_No'">{{ (currentPage - 1) * pageSize + i + 1 }}</span>
+            <span *ngIf="col === 'Enrollment_Date'">{{ item[col] | date:'mediumDate' }}</span>
+            <span *ngIf="col === 'Last_Online'">{{ item[col] ? (item[col] | date:'medium') : 'N/A' }}</span>
+            <span *ngIf="col === 'Completion_Percentage' || col === 'Attendance_Rate'">{{ item[col] }}%</span>
+            <span *ngIf="col !== 'Sl_No' && col !== 'Enrollment_Date' && col !== 'Last_Online' && col !== 'Completion_Percentage' && col !== 'Attendance_Rate'">
+              {{ item[col] }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div *ngIf="!loading && data.length > 0" class="pagination-footer">
+      <div class="pagination-info">
+        <p>
+          Showing
+          <span>{{ (currentPage - 1) * pageSize + 1 }}</span>
+          to
+          <span>{{ getMaxDisplayed() }}</span>
+          of
+          <span>{{ data.length }}</span>
+          results
+        </p>
+      </div>
+      
+      <div class="pagination-nav">
+        <nav class="pagination-numbers">
+          <button (click)="onPageChange(currentPage - 1)" 
+                  [disabled]="currentPage === 1"
+                  class="nav-btn prev"
+                  [class.disabled]="currentPage === 1">
+            <i class="fa fa-chevron-left"></i>
+          </button>
+          
+          <ng-container *ngFor="let page of getVisiblePages()">
+            <button *ngIf="page !== '...'"
+                    (click)="onPageChange(page)"
+                    class="page-num"
+                    [class.active]="page === currentPage">
+              {{ page }}
+            </button>
+            <span *ngIf="page === '...'" class="dots">{{ page }}</span>
+          </ng-container>
+          
+          <button (click)="onPageChange(currentPage + 1)" 
+                  [disabled]="currentPage >= getTotalPages()"
+                  class="nav-btn next"
+                  [class.disabled]="currentPage >= getTotalPages()">
+            <i class="fa fa-chevron-right"></i>
+          </button>
+        </nav>
+
+        <div class="page-size-selector">
+          <select [(ngModel)]="pageSize" (change)="currentPage = 1">
+            <option [value]="10">10 / page</option>
+            <option [value]="25">25 / page</option>
+            <option [value]="50">50 / page</option>
+            <option [value]="100">100 / page</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && data.length === 0" class="no-data">
+      <p>No records found for this period.</p>
+    </div>
+  </div>
+</div>
