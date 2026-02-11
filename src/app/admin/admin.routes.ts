@@ -72,7 +72,7 @@ export const ADMIN_ROUTES: Routes = [
   {
     path: 'report',
     component: ReportComponent,
-    data: { breadcrumb: 'Report'}
+    data: { breadcrumb: 'Exam Report'}
   },
 //   {
 //     path: 'reviews',

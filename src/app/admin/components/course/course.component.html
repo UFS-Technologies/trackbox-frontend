@@ -706,7 +706,7 @@
             </select>
           </div>
 
-          <div class="space-y-2">
+<!-- <div class="space-y-2">
             <label for="visibilityType" class="block text-sm font-medium text-gray-700">Visibility</label>
             <select formControlName="visibilityType" id="visibilityType"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -714,16 +714,16 @@
                 {{visibility['Visbility_Name']}}
               </option>
             </select>
-          </div>
+          </div> -->
         </div>
 
         <div class="flex flex-wrap items-center gap-4 mb-6">
-          <div class="flex items-center">
+<!-- <div class="flex items-center">
             <input type="checkbox" id="Is_Exam_Test"
               class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
               [checked]="filterForm.get('Is_Exam_Test')?.value == 1" (change)="onExamTestChange($event)" />
             <label for="Is_Exam_Test" class="ml-2 block text-sm text-gray-900">Show Exam</label>
-          </div>
+          </div> -->
 
           <div class="flex-grow">
             <input type="text" formControlName="filterName" id="contentName"
@@ -768,17 +768,16 @@
               </div>
 
               <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
-                <div>
+                <!-- <div>
                   <p class="text-gray-600">Material type</p>
                   <p class="font-medium text-gray-800">
-                    <!-- Check if both 1 (Material) and other visibility values are present -->
                     {{
                     content['Visibilities'].includes(1) && content['Visibilities'].includes(2) ? 'Material, Library' :
                     (content['Visibilities'].includes(1) ? 'Material' :
                     (content['Visibilities'].includes(2) ? 'Library' : ''))
                     }}
                   </p>
-                </div>
+                </div> -->
                 <div>
                   <p class="text-gray-600">Level</p>
                   <p class="font-medium text-gray-800">{{ content['Module_Name'] || 'No Level Assigned' }}</p>

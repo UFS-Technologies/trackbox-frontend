@@ -7,7 +7,6 @@
   background: #f8f9fa;
   min-height: 100vh;
 }
-
 .chart-container {
   background: white;
   padding: 25px;
@@ -19,25 +18,21 @@
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
-
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
   }
-
   &.full-width {
     width: 100%;
     margin-top: 10px;
     height: 500px;
   }
-
   &.pie-container {
     canvas {
       max-height: 280px;
       margin: 0 auto;
     }
   }
-
   h2 {
     margin-bottom: 25px;
     font-size: 1.25rem;
@@ -45,7 +40,6 @@
     color: #2D3748;
     display: flex;
     align-items: center;
-
     &::before {
       content: '';
       width: 4px;
@@ -55,37 +49,30 @@
       margin-right: 12px;
     }
   }
-
   canvas {
     flex: 1;
     width: 100% !important;
     height: 100% !important;
   }
 }
-
 @media (max-width: 1024px) {
   .chart-container {
     width: 100%;
   }
 }
-
-
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   width: 100%;
   margin-bottom: 20px;
-
   @media (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
   }
-
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
 }
-
 .metric-card {
   background: white;
   padding: 20px;
@@ -100,17 +87,14 @@
   align-items: center;
   text-align: center;
   min-height: 160px;
-
   &.clickable {
     cursor: pointer;
-
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
       background: #f8fafc;
     }
   }
-
   h3 {
     margin: 0;
     color: #4a5568;
@@ -119,14 +103,12 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-
   .metric-value {
     font-size: 2.8rem;
     font-weight: 800;
     color: #42A5F5;
     margin: 10px 0;
   }
-
   .metric-desc {
     margin: 0;
     color: #718096;
@@ -134,13 +116,11 @@
     font-weight: 500;
   }
 }
-
 .section-divider {
   width: 100%;
   text-align: center;
   margin: 40px 0 20px;
   position: relative;
-
   &::before {
     content: '';
     position: absolute;
@@ -151,7 +131,6 @@
     background: #e2e8f0;
     z-index: 1;
   }
-
   span {
     background: #f8f9fa;
     padding: 0 20px;
