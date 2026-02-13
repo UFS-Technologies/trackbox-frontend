@@ -1,5 +1,6 @@
 export const environment = {
   BasePath:"http://localhost:3520/",
+  // BasePath:"https://lmsdemoapi.ufstech.co.in/",
   //  BasePath:"https://coursetrackapi.ufstech.co.in/",
   // BasePath: "https://happyenglishapi.ufstech.co.in/",
   FilePath:"https://pub-11714a99f3bd420ca95f23dda2af714b.r2.dev/",

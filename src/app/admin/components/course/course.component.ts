@@ -534,7 +534,8 @@ console.log(this.scheduledTeachers.controls?.values);
     fileToRemove: any,
     fileName: string,
     filetype: boolean = false,
-    allowedTypes: 'all' | 'pdf' | 'audio' | 'video' | 'image' = 'all'
+    allowedTypes: 'all' | 'pdf' | 'audio' | 'video' | 'image' = 'all',
+    maxSize?: number
   ) {
  
     this.TempAudio = null;
@@ -547,6 +548,18 @@ console.log(this.scheduledTeachers.controls?.values);
       event.target.value = ''; // Clear the file input
       return;
     }
+
+    // File size validation
+    if (maxSize && file.size > maxSize) {
+      const sizeStr = maxSize >= 1024 * 1024 ? `${(maxSize / (1024 * 1024)).toFixed(0)}MB` : `${(maxSize / 1024).toFixed(0)}KB`;
+      this.dialogBox.open(DialogBox_Component, { 
+        panelClass: 'Dialogbox-Class', 
+        data: { Message: `File size should be below ${sizeStr}.`, Type: "3", Heading: 'File size' } 
+      });
+      event.target.value = ''; // Clear the file input
+      return;
+    }
+
     if (!(fileToRemove instanceof File) && fileToRemove != null && fileToRemove !== '') {
       this.fileToRemoveAws.push(fileToRemove);
     }

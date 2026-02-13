@@ -483,7 +483,7 @@
 
             <div class="col-span-full" (click)="fileInput5.click()">
               <input #fileInput5
-                (change)="onFileSelected($event,contentForm,'file',contentForm.get('file')?.value,'file_name',true)"
+                (change)="onFileSelected($event,contentForm,'file',contentForm.get('file')?.value,'file_name',true,'all',52428800)"
                 id="file-upload" style="display: none;" name="file-upload" type="file" class="sr-only">
 
               <label for="courseName" class="block text-sm font-semibold leading-6 text-gray-900">Content File</label>
@@ -502,6 +502,7 @@
                       {
 
                       <span>Upload a file</span>
+                      <p class="text-xs text-gray-500 mt-1">Max size: 50MB</p>
                       } @else{
                       <span>{{contentForm.get('file_name')?.value}}</span>
                       }
@@ -551,14 +552,14 @@
             class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors duration-300"
             (click)="fileInput.click()">
             <input #fileInput
-              (change)="onFileSelected($event, contentForm, 'contentThumbnail_Path', contentForm.get('contentThumbnail_Path')?.value, 'contentThumbnail_name', false, 'image')"
+              (change)="onFileSelected($event, contentForm, 'contentThumbnail_Path', contentForm.get('contentThumbnail_Path')?.value, 'contentThumbnail_name', false, 'image', 512000)"
               style="display:none;" type="file">
             <img class="mx-auto h-24 w-24 mb-4" [src]="getImagePath(contentForm.get('contentThumbnail_Path')?.value)"
               onerror="this.src='/assets/images/icons/upload-image.svg';" alt="Thumbnail preview">
             <p class="text-sm text-gray-600">
               {{ contentForm.get('contentThumbnail_name')?.value || 'Click to upload thumbnail' }}
             </p>
-            <p class="text-xs text-gray-500 mt-2">PNG, JPG, GIF </p>
+            <p class="text-xs text-gray-500 mt-2">PNG, JPG, GIF (Max 500KB)</p>
           </div>
         </div>
 
@@ -579,7 +580,7 @@
                 class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors duration-300"
                 (click)="fileInput3.click()">
                 <input #fileInput3
-                  (change)="onFileSelected($event, contentForm.get('exam'), 'Main_Question', contentForm.get('exam.Main_Question')?.value, 'file_name',true, 'audio')"
+                  (change)="onFileSelected($event, contentForm.get('exam'), 'Main_Question', contentForm.get('exam.Main_Question')?.value, 'file_name',true, 'audio', 52428800)"
                   style="display:none;" type="file">
                 <p class="text-sm text-gray-600">
                   {{ contentForm.get('exam.file_name')?.value || 'Click to upload Audio File' }}
@@ -609,7 +610,7 @@
           <!-- <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Question File</label>
                         <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors duration-300" (click)="fileInput4.click()">
-                            <input #fileInput4 (change)="onFileSelected($event, contentForm.get('exam'), 'Supporting_Document_Path', contentForm.get('exam.Supporting_Document_Path')?.value, 'Supporting_Document_Name', false, 'pdf')" style="display:none;" type="file">
+                            <input #fileInput4 (change)="onFileSelected($event, contentForm.get('exam'), 'Supporting_Document_Path', contentForm.get('exam.Supporting_Document_Path')?.value, 'Supporting_Document_Name', false, 'pdf', 52428800)" style="display:none;" type="file">
                             <p class="text-sm text-gray-600">
                                 {{ contentForm.get('exam.Supporting_Document_Name')?.value || 'Click to upload supporting document' }}
                             </p>
@@ -623,7 +624,7 @@
               class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors duration-300"
               (click)="fileInput5.click()">
               <input #fileInput5
-                (change)="onFileSelected($event, contentForm.get('exam'), 'Answer_Key_Path', contentForm.get('exam.Answer_Key_Path')?.value, 'Answer_Key_Name', false, 'pdf')"
+                (change)="onFileSelected($event, contentForm.get('exam'), 'Answer_Key_Path', contentForm.get('exam.Answer_Key_Path')?.value, 'Answer_Key_Name', false, 'pdf', 52428800)"
                 style="display:none;" type="file">
               <p class="text-sm text-gray-600">
                 {{ contentForm.get('exam.Answer_Key_Name')?.value || 'Click to upload answer key' }}

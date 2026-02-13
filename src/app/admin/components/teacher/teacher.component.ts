@@ -552,13 +552,13 @@ shouldShowExistingImage(): boolean {
 }
 onFileSelected(event) {
   const file = event.target.files[0];
-  const minSize = 4 * 1024 * 1024; // 4 MB in bytes
+  const minSize = 1 * 1024 * 1024; // 1 MB in bytes
 
   if (file) {
     if (file.size > minSize) {
       const dialogRef = this.dialogBox.open(DialogBox_Component, {
         panelClass: 'Dialogbox-Class',
-        data: { Message: 'File size should be below 4mb.', Type: "3", Heading: 'File size' }
+        data: { Message: 'File size should be below 1mb.', Type: "3", Heading: 'File size' }
       });
        return;
     }

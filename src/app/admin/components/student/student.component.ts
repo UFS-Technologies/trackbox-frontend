@@ -57,6 +57,7 @@ export class StudentComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 10;
   view = 'list';
+  showPassword = false;
   searchTerm: string = '';
   searchTimeout: any;
   student_Form: FormGroup;
@@ -403,7 +404,7 @@ shouldShowExistingImage(): boolean {
   return profilePhotoPath && !(profilePhotoPath instanceof File);
 }
   onFileSelected(event){
-    const fileSizeLimit = 1 * 1024 * 1024; // 4MB in bytes
+    const fileSizeLimit = 1 * 1024 * 1024; // 1MB in bytes
 
     const file = (event.target as HTMLInputElement).files;
     if (file && file[0] &&  file[0].size > fileSizeLimit) {
@@ -440,6 +441,10 @@ shouldShowExistingImage(): boolean {
 
 
 
+  
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
   
   closeClick() {
     this.view = 'list';
