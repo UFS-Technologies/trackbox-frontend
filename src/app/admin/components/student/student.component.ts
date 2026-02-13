@@ -126,12 +126,12 @@ examsList:any=[]
       Expiry_Date: [''],
       Price: [''],
       Payment_Date: [new Date().toISOString().substring(0, 16)], // today's datetime
-      Payment_Status: [''],
+      Payment_Status: ['Paid'],
       LastAccessed_Content_ID: [0],
       Transaction_Id: [''],
       Delete_Status: [0], // default to 0
       StudentCourse_ID: [0], // default to 0
-      Payment_Method: [''],
+      Payment_Method: ['admin'],
       Slot_Id:  [0],
       Batch_ID:  [0,[Validators.required, Validators.min(1)]],
     });
@@ -188,8 +188,10 @@ examsList:any=[]
     console.log('selectedCourse: ', selectedCourse);
     console.log('student_Course: ', this.student_Course);
   
-    this.student_Course.get('Slot_Id')?.setValue(null);
-    this.student_Course.get('Batch_ID')?.setValue(null);
+    if(this.optedCourseId != courseId) {
+      this.student_Course.get('Slot_Id')?.setValue(0);
+      this.student_Course.get('Batch_ID')?.setValue(0);
+    }
     this.student_Course.get('Price')?.setValue(selectedCourse?.Price);
   
     if (selectedCourse) {
@@ -198,8 +200,8 @@ examsList:any=[]
         Enrollment_Date: currentDate,
         Payment_Date: currentDate,
         Delete_Status: 0,
-        Batch_ID: null,
-        Slot_Id: null,
+        Payment_Status: 'Paid',
+        Payment_Method: 'admin'
       });
   
       // Store subscription to unsubscribe from previous call
@@ -217,6 +219,11 @@ examsList:any=[]
         })),
         tap(({ timeSlots, batches }) => {
           this.available_Time_Slots = timeSlots;
+          if (this.optedCourseId == courseId) {
+            this.available_Time_Slots = this.available_Time_Slots.filter(
+              slot => slot.Slot_Id.toString() != this.selectedSlot?.toString()
+            );
+          }
           console.log('this.available_Time_Slots: ', this.available_Time_Slots);
   
           this.batch_Data = batches;
@@ -456,6 +463,7 @@ shouldShowExistingImage(): boolean {
   Create_New() {
     this.view = 'edit';
     this.Clr_student();
+    this.Clr_student_Course();
   }
 
   Clr_student() {
@@ -483,16 +491,20 @@ shouldShowExistingImage(): boolean {
       Expiry_Date: '',
       Price: '',
       Payment_Date: new Date().toISOString().substring(0, 16), // today's datetime
-      Payment_Status: '',
+      Payment_Status: 'Paid',
       LastAccessed_Content_ID: 0,
       Transaction_Id: '',
       Delete_Status: 0, // default to 0
-      Payment_Method: '',
-      Slot_Id: null,
-      Batch_ID: null,
+      Payment_Method: 'admin',
+      Slot_Id: 0,
+      Batch_ID: 0,
     });
     this.slotDetails = null;
     this.batchDetails = null;
+    this.selectedTime = '';
+    this.selectedSlot = 0;
+    this.optedCourseId = 0;
+    this.available_Time_Slots = [];
   } 
 
   Search_student() {
@@ -618,8 +630,8 @@ setStudentDetails(student){
 }
   View_courses(Student_ID,viewChange=true){
     this.selectedTime='';
-    this.selectedSlot=null;
-    this.optedCourseId=null;
+    this.selectedSlot=0;
+    this.optedCourseId=0;
     console.log('viewChange: ', viewChange);
     this.isLoading=true
     this.student_Service_.getCoursesByStudentId(Student_ID).subscribe(result=>{
@@ -632,7 +644,7 @@ setStudentDetails(student){
       if(result.length ){
         if(result[0]['start_time']&&result[0]['end_time']){
 
-          this.selectedTime=result[0]['start_time']+ ' - ' +result[0]['end_time']
+          this.selectedTime=result[0]['start_time']+ ' - ' +result[0]['end_time'] + (result[0]['Teacher_Name_One_On_One'] ? ' (' + result[0]['Teacher_Name_One_On_One'] + ')' : '')
         }
         this.selectedSlot= result[0].Slot_Id
           this.slotDetails={

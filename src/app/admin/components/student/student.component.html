@@ -381,6 +381,28 @@
         </select>
       </div>
 
+
+      <!-- <div class="space-y-2">
+  <label for="slot-id" class="block text-sm font-medium text-gray-700">
+    Timing
+  </label>
+
+  <select
+    id="slot-id"
+    formControlName="Slot_Id"
+    (change)="onSlotChange($event)"
+    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+  >
+    <option [value]="0">No selection</option>
+
+    <option *ngFor="let slot of available_Time_Slots" 
+            [value]="slot.Slot_Id">
+      {{ slot.start_time }} - {{ slot.end_time }} ({{slot.Teacher_Name}})
+    </option>
+  </select>
+</div> -->
+
+
       <!-- Batch Selection -->
       <div class="space-y-2">
         <label for="batch-id" class="block text-sm font-medium text-gray-700">
@@ -701,8 +723,9 @@
         <select id="slot-id" formControlName="Slot_Id"
           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition duration-150 ease-in-out">
           <option [value]="0">No selection </option>
-          <option *ngFor="let slot of available_Time_Slots" [value]="slot.Slot_Id">{{ slot.start_time }} - {{
-            slot.end_time }}</option>
+          <option *ngFor="let slot of available_Time_Slots" [value]="slot.Slot_Id">
+            {{ slot.start_time }} - {{ slot.end_time }} ({{slot.Teacher_Name}})
+          </option>
         </select>
       </div>
       <div class="space-y-2">
