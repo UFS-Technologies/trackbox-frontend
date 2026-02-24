@@ -191,6 +191,7 @@ examsList:any=[]
     if(this.optedCourseId != courseId) {
       this.student_Course.get('Slot_Id')?.setValue(0);
       this.student_Course.get('Batch_ID')?.setValue(0);
+      this.optedCourseId = courseId;
     }
     this.student_Course.get('Price')?.setValue(selectedCourse?.Price);
   
@@ -712,7 +713,7 @@ setStudentDetails(student){
       StudentCourse_ID: StudentCourse_ID,
       Slot_Id: slotId,
       Batch_ID: Batch_ID,
-    });
+    }, { emitEvent: false });
     this.student_Course.get('Price')?.setValue(Price)
     console.log(this.student_Course);
   
