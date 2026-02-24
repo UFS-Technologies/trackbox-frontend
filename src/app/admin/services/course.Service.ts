@@ -125,6 +125,10 @@ Get_Available_Time_Slot(course_Id)
 {
  return this.http.get(environment.BasePath +'course/Get_Available_Time_Slot/'+course_Id);
 }
+Get_All_Time_Slot(course_Id)
+{
+ return this.http.get(environment.BasePath +'course/Get_All_Time_Slot/'+course_Id);
+}
 Get_ExamDetails_By_StudentId(exam_Id,student_Id)
 {
  

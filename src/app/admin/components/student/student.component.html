@@ -365,18 +365,15 @@
       </div>
 
       @if(student_Course.get('Course_ID')?.value){
-      <!-- One on One Slot Selection -->
+      <!-- Faculty / Slot Selection -->
       <div class="space-y-2">
-        <label for="slot-id" class="block text-sm font-medium text-gray-700">Timing</label>
+        <label for="slot-id" class="block text-sm font-medium text-gray-700">Faculty & Timing</label>
         <select id="slot-id" (change)="onSlotChange($event)" formControlName="Slot_Id"
           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
-          @if((optedCourseId==student_Course.get('Course_ID')?.value )&&selectedTime!=''){
-          <option [value]="selectedSlot">{{selectedTime}}</option>
-          }
           <option [value]="0">No selection</option>
 
           <option *ngFor="let slot of available_Time_Slots" [value]="slot.Slot_Id">
-            {{ slot.start_time }} - {{ slot.end_time }} ({{slot.Teacher_Name}})
+             {{slot.Teacher_Name}} ({{ slot.start_time }} - {{ slot.end_time }})
           </option>
         </select>
       </div>
@@ -717,7 +714,7 @@
       @if(student_Course.get('Course_ID')?.value){
 
       <div class="space-y-2">
-        <label for="slot-id" class="block text-sm font-medium text-gray-700">One on One Slot </label>
+        <label for="slot-id" class="block text-sm font-medium text-gray-700">Timing</label>
 
 
         <select id="slot-id" formControlName="Slot_Id"

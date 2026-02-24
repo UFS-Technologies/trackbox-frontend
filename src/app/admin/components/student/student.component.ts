@@ -210,7 +210,7 @@ examsList:any=[]
       }
   
       this.currentSubscription = forkJoin({
-        timeSlots: this.course_Service_.Get_Available_Time_Slot(courseId),
+        timeSlots: this.course_Service_.Get_All_Time_Slot(courseId),
         batches: this.course_Service_.get_course_Batches(courseId)
       }).pipe(
         map(({ timeSlots, batches }) => ({
@@ -219,11 +219,7 @@ examsList:any=[]
         })),
         tap(({ timeSlots, batches }) => {
           this.available_Time_Slots = timeSlots;
-          if (this.optedCourseId == courseId) {
-            this.available_Time_Slots = this.available_Time_Slots.filter(
-              slot => slot.Slot_Id.toString() != this.selectedSlot?.toString()
-            );
-          }
+          
           console.log('this.available_Time_Slots: ', this.available_Time_Slots);
   
           this.batch_Data = batches;

@@ -71,7 +71,7 @@
             </th>
             <th
               class="px-6 py-3 border border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Time Slot (Requested / Allocated)
+              Timing
             </th>
           </tr>
         </thead>
@@ -140,7 +140,7 @@
 
             <td class="px-6 py-4 border border-gray-300 whitespace-nowrap text-sm text-gray-600">
               <div class="flex flex-col">
-                <span class="text-xs text-gray-500">Requested: {{ item.start_time }} - {{ item.end_time }}</span>
+                <!-- <span class="text-xs text-gray-500">Requested: {{ item.start_time }} - {{ item.end_time }}</span> -->
                 @if(slot_editMode[$index]) {
                 <div class="flex items-center mt-2">
                   <select [(ngModel)]="item.Slot_Id"
@@ -158,7 +158,7 @@
                 </div>
                 } @else {
                 <div class="flex items-center mt-2">
-                  <span class="text-sm text-gray-800">Allocated: {{ item.allocatedStartTime }} - {{
+                  <span class="text-sm text-gray-800">{{ item.allocatedStartTime }} - {{
                     item.allocatedEndTime }}</span>
                   <!-- <span class="material-symbols-outlined cursor-pointer ml-2 text-gray-500 text-lg"
                     (click)="slot_editMode[$index] = true">
