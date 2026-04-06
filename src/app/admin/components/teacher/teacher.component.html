@@ -200,16 +200,10 @@
         }
       </div>
       <div class="mb-4">
-        <label for="numberOfQuestions" class="block text-sm font-medium text-gray-700">Last Name <span
-            class="text-red-700">*</span></label>
+        <label for="numberOfQuestions" class="block text-sm font-medium text-gray-700">Last Name</label>
         <input type="text" formControlName="Last_Name"
           class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-        @if (user_Form.get('Last_Name')?.invalid
-        && (user_Form.get('Last_Name')?.touched || submitted)) {
-        <div class="text-red-500 text-sm mt-1">
-          Last Name is required
-        </div>
-        }
+
       </div>
 
       <div class="mb-4">
@@ -272,6 +266,13 @@
         </div>
         }
       </div>
+
+      <div class="mb-4 col-span-3">
+        <label for="Address" class="block text-sm font-medium text-gray-700">Address</label>
+        <textarea id="Address" formControlName="Address" rows="3"
+          class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
+      </div>
+
       <div class="mb-4">
         @if(user_Form.get('Hod')?.value) {
         <label for="course" class="block text-sm font-medium text-gray-700">

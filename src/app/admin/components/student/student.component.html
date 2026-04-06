@@ -285,14 +285,10 @@
 
         <!-- Last Name Input -->
         <div class="mb-4">
-          <label for="numberOfQuestions" class="block text-sm font-medium text-gray-700">Last Name <span
-              class="text-red-700">*</span></label>
+          <label for="numberOfQuestions" class="block text-sm font-medium text-gray-700">Last Name</label>
           <input type="text" formControlName="Last_Name"
             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-          <div *ngIf="student_Form.get('Last_Name')?.touched && student_Form.get('Last_Name')?.invalid"
-            class="text-red-500 text-xs">
-            Last Name is required.
-          </div>
+
         </div>
 
         <!-- Email Input -->

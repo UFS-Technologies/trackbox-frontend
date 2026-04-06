@@ -57,6 +57,8 @@
                 <tr>
                     <th>Student Name</th>
                     <th>Course Name</th>
+                    <th>Assigned Faculty</th>
+                    <th>Assigned Batch</th>
                     <th>Video Content</th>
                     <th>Watched Date</th>
                     <th>Last Updated</th>
@@ -66,12 +68,14 @@
                 <tr *ngFor="let row of tableData">
                     <td>{{row.Student_Name}}</td>
                     <td>{{row.Course_Name}}</td>
+                    <td>{{row.Teacher_Name}}</td>
+                    <td>{{row.Batch_Name}}</td>
                     <td>{{row.Content_Name}}</td>
                     <td>{{row.Watched_Date | date:'mediumDate'}}</td>
                     <td>{{row.Update_Time | date:'medium'}}</td>
                 </tr>
                 <tr *ngIf="tableData.length === 0">
-                    <td colspan="5" class="no-data">No attendance records found.</td>
+                    <td colspan="7" class="no-data">No attendance records found.</td>
                 </tr>
             </tbody>
         </table>

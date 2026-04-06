@@ -70,7 +70,7 @@ export class TeacherComponent implements OnInit {
       
       User_ID: [0],
       First_Name: ["",Validators.required],
-      Last_Name: ["",Validators.required],
+      Last_Name: [""],
       Email: ["", [Validators.required, Validators.email]],
       PhoneNumber: ["",Validators.required],
       password: ["",Validators.required],
@@ -83,6 +83,7 @@ export class TeacherComponent implements OnInit {
       Profile_Photo_Name: ["",],
       Registered_Date: [new Date(), Validators.required],
       Hod:[false],
+      Address: [''],
       Course_ID: [[]],  // Multi-select initialized as an array,
       teacherCourses: this.fb.array([])
 
@@ -300,6 +301,7 @@ console.log('this.user_Form.value: ', this.user_Form.value);
       User_Status: null,
       Registered_Date: new Date(),
       Hod:false,
+      Address: '',
       Course_ID: [[]]
 
     })

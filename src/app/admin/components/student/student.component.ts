@@ -106,7 +106,7 @@ examsList:any=[]
      
       Student_ID: [0],
       First_Name: ["", Validators.required],
-      Last_Name: ["", Validators.required],
+      Last_Name: [""],
       Email: [""],
       Country_Code: [""], // New field for country code
       Country_Code_Name: [""], // New field for country code

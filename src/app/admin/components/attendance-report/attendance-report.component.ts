@@ -37,7 +37,7 @@ export class AttendanceReportComponent implements OnInit {
 
     // Table Data
     tableData: any[] = [];
-    displayedColumns = ['Student_Name', 'Course_Name', 'Content_Name', 'Watched_Date', 'Update_Time'];
+    displayedColumns = ['Student_Name', 'Course_Name', 'Teacher_Name', 'Batch_Name', 'Content_Name', 'Watched_Date', 'Update_Time'];
 
     // Pagination
     pageSize = 25;
