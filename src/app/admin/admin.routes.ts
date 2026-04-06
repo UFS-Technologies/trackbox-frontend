@@ -13,6 +13,7 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
 import { StudentAppinfoComponent } from './components/student-appinfo/student-appinfo.component';
 import { ReportComponent } from './components/report/report.component';
 import { MetricDetailsComponent } from './components/dashboard/details/metric-details.component';
+import { AttendanceReportComponent } from './components/attendance-report/attendance-report.component';
 export const ADMIN_ROUTES: Routes = [
   {
     path: "",
@@ -88,5 +89,10 @@ export const ADMIN_ROUTES: Routes = [
     path: 'Teacher_attendance',
     component: TeacherReportComponent,
     data: { breadcrumb: 'Teacher Attendance'}
+  },
+  {
+    path: 'attendance_report',
+    component: AttendanceReportComponent,
+    data: { breadcrumb: 'Attendance Report' }
   },
 ];

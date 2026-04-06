@@ -1,0 +1,83 @@
+
+<div class="attendance-container">
+    <div class="header">
+        <h1>Attendance Report</h1>
+        <div class="filter-grid">
+            <mat-form-field appearance="fill">
+                <mat-label>Student</mat-label>
+                <input type="text"
+                       matInput
+                       [formControl]="selectedStudent"
+                       [matAutocomplete]="studentAuto"
+                       #Student
+                       (input)="filter('student')">
+                <mat-autocomplete #studentAuto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of studentfilteredOptions" [value]="option">
+                        {{option.First_Name}} {{option.Last_Name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Course</mat-label>
+                <input type="text"
+                       matInput
+                       [formControl]="selectedCourse"
+                       [matAutocomplete]="courseAuto"
+                       #Course
+                       (input)="filter('course')">
+                <mat-autocomplete #courseAuto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of coursefilteredOptions" [value]="option">
+                        {{option.Course_Name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" (click)="picker.open()">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" [formControl]="selectedDate" (click)="picker.open()">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <div class="action-buttons">
+                <button mat-flat-button color="primary" (click)="fetchReportData()">
+                    <mat-icon>search</mat-icon> Search
+                </button>
+                <button mat-stroked-button (click)="clearFilters()">
+                    <mat-icon>refresh</mat-icon> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container" *ngIf="IsLoaded">
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Course Name</th>
+                    <th>Video Content</th>
+                    <th>Watched Date</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of tableData">
+                    <td>{{row.Student_Name}}</td>
+                    <td>{{row.Course_Name}}</td>
+                    <td>{{row.Content_Name}}</td>
+                    <td>{{row.Watched_Date | date:'mediumDate'}}</td>
+                    <td>{{row.Update_Time | date:'medium'}}</td>
+                </tr>
+                <tr *ngIf="tableData.length === 0">
+                    <td colspan="5" class="no-data">No attendance records found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="loading-overlay" *ngIf="!IsLoaded">
+        <p>Loading attendance data...</p>
+    </div>
+</div>

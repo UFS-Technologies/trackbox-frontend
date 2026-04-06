@@ -44,6 +44,12 @@ export class NavbarComponent implements OnInit {
         Route: '/admin/report',
         link: '/admin/report'
       });
+      this.menuItems.push({
+        Menu_Name: 'Attendance Report',
+        label: 'Attendance Report',
+        Route: '/admin/attendance_report',
+        link: '/admin/attendance_report'
+      });
       // 1 for admin   2 for student
       // this.user=='1'?this.menuItems= [
       //   { label: 'Student', link: '/admin/student', action: '' },
@@ -125,6 +131,8 @@ getImageSource(label: string, isActive: boolean): string {
     case 'Question':
       return isActive ? 'assets/images/navbar/questions-active.png' : 'assets/images/navbar/questions.svg';
     case 'Exam Report':
+      return isActive ? 'assets/images/navbar/questions-active.png' : 'assets/images/navbar/questions.svg';
+    case 'Attendance Report':
       return isActive ? 'assets/images/navbar/questions-active.png' : 'assets/images/navbar/questions.svg';
     default:
       return ''; // Handle other cases if needed

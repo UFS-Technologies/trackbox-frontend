@@ -259,6 +259,9 @@ Student_GetQuestions(course_exam_id: any) {
     return this.http.post(environment.BasePath + 'course/Upload_Questions_Excel', data);
   }
 
-
+  Get_VideoAttendance(Student_ID: any, Course_ID: any, Content_ID: any, Month: any) {
+    let params: any = { Course_ID, Content_ID, Month };
+    return this.http.get(`${environment.BasePath}course/Get_VideoAttendance/${Student_ID}`, { params });
+  }
 
 }
