@@ -226,6 +226,15 @@
 
 
       <div class="mb-4">
+        <label for="country" class="block text-sm font-medium text-gray-700">Country Code</label>
+        <lib-country-list id="country" [preferredCountryCodes]="preferredCountryCodes"
+          (onCountryChange)="onCountryChange($event)" [selectedCountryConfig]="selectedCountryConfig"
+          [countryListConfig]="countryListConfig" [selectedCountryCode]="user_Form.get('Country_Code_Name')?.value"
+          class="block w-full border border-gray-300 mt-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300 ease-in-out"></lib-country-list>
+        <input formControlName="Country_Code" type="hidden">
+      </div>
+
+      <div class="mb-4">
         <label for="duration" class="block text-sm font-medium text-gray-700">PhoneNumber <span
             class="text-red-700">*</span></label>
         <input type="number" formControlName="PhoneNumber"

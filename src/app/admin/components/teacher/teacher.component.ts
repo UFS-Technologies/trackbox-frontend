@@ -10,6 +10,7 @@ import { environment } from '../../../../environments/environment';
 import { course_Service } from '../../services/course.Service';
 import { BatchService } from '../../services/batch.service';
 import { SharedModule } from '../../../shared/shared.module';
+import { IConfig, ICountry } from 'ngx-countries-dropdown';
 
 @Component({
     selector: 'app-teacher',
@@ -29,6 +30,16 @@ export class TeacherComponent implements OnInit {
   private ngZone = inject(NgZone);
   isInitializing = false;
   resetTimeout: any = null;
+
+  preferredCountryCodes: string[] = ['in', 'ae'];
+  selectedCountryConfig: IConfig = {
+    hideCode: true,
+    hideName: true
+  };
+  countryListConfig: IConfig = {
+    hideCode: true,
+  };
+  selectedCountry: ICountry;
 
   showPassword = false;
   view = 'list';
@@ -73,6 +84,8 @@ export class TeacherComponent implements OnInit {
       Last_Name: [""],
       Email: ["", [Validators.required, Validators.email]],
       PhoneNumber: ["",Validators.required],
+      Country_Code: [""],
+      Country_Code_Name: [""],
       password: ["",Validators.required],
       Delete_Status: [0],
       User_Type_Id: [2],
@@ -268,6 +281,12 @@ console.log('this.user_Form.value: ', this.user_Form.value);
 });
   }
 
+  onCountryChange(country: ICountry) {
+    this.selectedCountry = country;
+    this.user_Form.get('Country_Code')?.setValue(country.dialling_code);
+    this.user_Form.get('Country_Code_Name')?.setValue(country.code);
+  }
+
   closeClick() {
     this.courseList=[]
 
@@ -302,6 +321,8 @@ console.log('this.user_Form.value: ', this.user_Form.value);
       Registered_Date: new Date(),
       Hod:false,
       Address: '',
+      Country_Code: [""],
+      Country_Code_Name: [""],
       Course_ID: [[]]
 
     })
@@ -383,7 +404,7 @@ console.log('this.user_Form.value: ', this.user_Form.value);
       });
   }
 
-  Edit_user(user_e: user) {
+  Edit_user(user_e: any) {
 
     console.log('user_e: ', user_e);
     this.isLoading = true;
@@ -394,6 +415,8 @@ console.log('this.user_Form.value: ', this.user_Form.value);
       }
 
         this.user_Form.patchValue(user_e);
+        this.user_Form.get('Country_Code')?.setValue(user_e.Country_Code || '');
+        this.user_Form.get('Country_Code_Name')?.setValue(user_e.Country_Code_Name || '');
         this.loadExistingData(this.user_Form.get('User_ID')?.value);
 
     console.log('this.user_Form: ', this.user_Form);
