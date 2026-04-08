@@ -14,6 +14,8 @@ import { StudentAppinfoComponent } from './components/student-appinfo/student-ap
 import { ReportComponent } from './components/report/report.component';
 import { MetricDetailsComponent } from './components/dashboard/details/metric-details.component';
 import { AttendanceReportComponent } from './components/attendance-report/attendance-report.component';
+import { AppManagementComponent } from './components/app-management/app-management.component';
+import { StaffAttendanceComponent } from './components/staff-attendance/staff-attendance.component';
 export const ADMIN_ROUTES: Routes = [
   {
     path: "",
@@ -65,11 +67,11 @@ export const ADMIN_ROUTES: Routes = [
     component: StudentReportComponent,
     data: { breadcrumb: 'Student Report'}
   },
-  {
-    path: 'course_module',
-    component: ModuleComponent,
-    data: { breadcrumb: 'Levels'}
-  },
+//   {
+//     path: 'course_module',
+//     component: ModuleComponent,
+//     data: { breadcrumb: 'Levels'}
+//   },
   {
     path: 'report',
     component: ReportComponent,
@@ -94,5 +96,15 @@ export const ADMIN_ROUTES: Routes = [
     path: 'attendance_report',
     component: AttendanceReportComponent,
     data: { breadcrumb: 'Attendance Report' }
+  },
+  {
+    path: 'app_management',
+    component: AppManagementComponent,
+    data: { breadcrumb: 'App Management' }
+  },
+  {
+    path: 'staff_attendance',
+    component: StaffAttendanceComponent,
+    data: { breadcrumb: 'Staff Attendance' }
   },
 ];

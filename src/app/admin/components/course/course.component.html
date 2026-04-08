@@ -419,7 +419,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           @if(contentForm.get('visibilities')?.value.includes(1)){
 
-          <div>
+          <!-- <div>
             <label for="Module" class="block text-sm font-medium text-gray-700 mb-1">
               Level <span class="text-red-500">*</span>
             </label>
@@ -436,7 +436,7 @@
               class="text-red-500 text-sm mt-1">
               {{ getErrorMessage('Module_ID') }}
             </div>
-          </div>
+          </div> -->
           }
           <div>
             <label for="Section" class="block text-sm font-medium text-gray-700 mb-1">
@@ -678,7 +678,7 @@
 
       <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="bg-white rounded-lg shadow-md p-6 mb-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="space-y-2">
+          <!-- <div class="space-y-2">
             <label for="moduleId" class="block text-sm font-medium text-gray-700"> Level</label>
             <select formControlName="moduleId" id="moduleId"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -686,7 +686,7 @@
               <option *ngFor="let module of ModuleDatas()" [ngValue]="module['Module_ID']">{{module['Module_Name']}}
               </option>
             </select>
-          </div>
+          </div> -->
 
           <div class="space-y-2">
             <label for="sectionId" class="block text-sm font-medium text-gray-700">Module </label>
@@ -779,10 +779,10 @@
                     }}
                   </p>
                 </div> -->
-                <div>
+                <!-- <div>
                   <p class="text-gray-600">Level</p>
                   <p class="font-medium text-gray-800">{{ content['Module_Name'] || 'No Level Assigned' }}</p>
-                </div>
+                </div> -->
 
                 <div>
                   <p class="text-gray-600">Module</p>

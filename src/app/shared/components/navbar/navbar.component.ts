@@ -36,8 +36,14 @@ export class NavbarComponent implements OnInit {
      const result = await  this.http.get('Get_All_Menu')
      console.log('result: ', result);
      
-     if(result){
-      this.menuItems=(result as any[]).filter(item => item.Menu_Name !== 'FeedBack');
+      if(result){
+      const dbItems = (result as any[]).filter(item => item.Menu_Name !== 'FeedBack' && item.Menu_Name !== 'Levels');
+      this.menuItems = dbItems.map(item => ({
+        ...item,
+        label: item.label || item.Menu_Name,
+        link: item.link || item.Route
+      }));
+      
       this.menuItems.push({
         Menu_Name: 'Exam Report',
         label: 'Exam Report',
@@ -49,6 +55,18 @@ export class NavbarComponent implements OnInit {
         label: 'Attendance Report',
         Route: '/admin/attendance_report',
         link: '/admin/attendance_report'
+      });
+      this.menuItems.push({
+        Menu_Name: 'Staff Attendance',
+        label: 'Staff Attendance',
+        Route: '/admin/staff_attendance',
+        link: '/admin/staff_attendance'
+      });
+      this.menuItems.push({
+        Menu_Name: 'App Management',
+        label: 'App Management',
+        Route: '/admin/app_management',
+        link: '/admin/app_management'
       });
       // 1 for admin   2 for student
       // this.user=='1'?this.menuItems= [
@@ -134,10 +152,13 @@ getImageSource(label: string, isActive: boolean): string {
       return isActive ? 'assets/images/navbar/questions-active.png' : 'assets/images/navbar/questions.svg';
     case 'Attendance Report':
       return isActive ? 'assets/images/navbar/questions-active.png' : 'assets/images/navbar/questions.svg';
+    case 'App Management':
+      return isActive ? 'assets/images/navbar/banner-active.png' : 'assets/images/navbar/banner.svg';
+    case 'Staff Attendance':
+      return isActive ? 'assets/images/navbar/student-active.png' : 'assets/images/navbar/student.svg';
     default:
       return ''; // Handle other cases if needed
   }
-  
 }
 isActive(link: string): boolean {
   const options: IsActiveMatchOptions = {

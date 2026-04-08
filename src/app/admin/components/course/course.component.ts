@@ -1618,13 +1618,12 @@ this.isLoading=true;
    const visibility= this.contentForm.get('visibilities')?.value
    console.log('visibility: ', visibility);
     // Check Module_ID
-    console.log('visibility.includes(2): ', visibility.includes(2));
-    if ((!this.contentForm.get('Module_ID')?.value || this.contentForm.get('Module_ID')?.value <= 0) && !visibility.includes(2)) {
-      this.contentForm.get('Module_ID')?.setErrors({ 'required': true });
-      isValid = false;
-    } else if (visibility.includes(2)) {
+    // if ((!this.contentForm.get('Module_ID')?.value || this.contentForm.get('Module_ID')?.value <= 0) && !visibility.includes(2)) {
+    //   this.contentForm.get('Module_ID')?.setErrors({ 'required': true });
+    //   isValid = false;
+    // } else if (visibility.includes(2)) {
       this.contentForm.get('Module_ID')?.setErrors(null);
-    }
+    // }
     
 
     // Check Section_ID
