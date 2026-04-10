@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  padding: 1.5rem;
+  background-color: #f9fafb; /* gray-50 */
+  min-height: calc(100vh - 100px);
+}
+
+// Material Toggle Customization to match theme
+::ng-deep .mat-mdc-slide-toggle.mat-primary {
+  --mdc-switch-selected-focus-state-layer-color: #3b82f6;
+  --mdc-switch-selected-handle-color: #3b82f6;
+  --mdc-switch-selected-hover-state-layer-color: #3b82f6;
+  --mdc-switch-selected-pressed-state-layer-color: #3b82f6;
+  --mdc-switch-selected-track-color: #93c5fd;
+}
+
+.textName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280; /* gray-500 */
+}

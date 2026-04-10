@@ -1,0 +1,64 @@
+<div class="p-6 h-full w-full bg-white sm:border-gray-200">
+  <div class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+    <h1 class="text-2xl font-bold text-gray-800 tracking-tight">Staff Attendance</h1>
+    <form [formGroup]="filterForm" class="flex items-center gap-3">
+      <label class="text-sm font-semibold text-gray-600 uppercase tracking-widest">Date:</label>
+      <input type="date" formControlName="date" (change)="onDateChange()" class="px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all">
+    </form>
+  </div>
+
+  <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+    <table class="min-w-full divide-y divide-gray-300">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Staff Name</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Phone</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Check In</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Check Out</th>
+          <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 bg-white">
+        @if(isLoading) {
+          <tr>
+            <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+              <span class="animate-spin inline-block w-8 h-8 border-4 border-sky-500 border-t-transparent rounded-full"></span>
+              <p class="mt-2 font-medium">Loading records...</p>
+            </td>
+          </tr>
+        } @else if(attendanceList.length === 0) {
+          <tr>
+            <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+               <span class="material-symbols-outlined text-4xl mb-2 text-gray-400">event_busy</span>
+               <p class="font-medium text-lg">No records found for this date.</p>
+            </td>
+          </tr>
+        } @else {
+          @for(record of attendanceList; track record.Attendance_ID) {
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                {{ record.First_Name }} {{ record.Last_Name }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ record.PhoneNumber }}</td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ record.Attendance_Date | date:'mediumDate' }}</td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold text-green-600">
+                {{ record.Check_In_Time ? (record.Check_In_Time | date:'shortTime') : '-' }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold text-red-500">
+                {{ record.Check_Out_Time ? (record.Check_Out_Time | date:'shortTime') : 'Not Checked Out' }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-center">
+                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full w-24 justify-center"
+                      [class.bg-green-100]="record.Check_Out_Time" [class.text-green-800]="record.Check_Out_Time"
+                      [class.bg-yellow-100]="!record.Check_Out_Time" [class.text-yellow-800]="!record.Check_Out_Time">
+                  {{ record.Check_Out_Time ? 'Completed' : 'Working' }}
+                </span>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
