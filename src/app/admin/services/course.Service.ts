@@ -259,8 +259,11 @@ Student_GetQuestions(course_exam_id: any) {
     return this.http.post(environment.BasePath + 'course/Upload_Questions_Excel', data);
   }
 
-  Get_VideoAttendance(Student_ID: any, Course_ID: any, Content_ID: any, Month: any) {
+  Get_VideoAttendance(Student_ID: any, Course_ID: any, Content_ID: any, Month: any, Batch_ID?: any, page?: number, pageSize?: number) {
     let params: any = { Course_ID, Content_ID, Month };
+    if (Batch_ID) params.Batch_ID = Batch_ID;
+    if (page) params.page = page;
+    if (pageSize) params.pageSize = pageSize;
     return this.http.get(`${environment.BasePath}course/Get_VideoAttendance/${Student_ID}`, { params });
   }
 

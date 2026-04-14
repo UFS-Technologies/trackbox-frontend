@@ -435,7 +435,7 @@ console.log(this.scheduledTeachers.controls?.values);
       });
     }
     }                                                                  
-    createTimeSlotGroup(startTime: string = '', endTime: string = '', Slot_Id = 0): FormGroup {
+    createTimeSlotGroup(startTime: string = '00:00', endTime: string = '23:59', Slot_Id = 0): FormGroup {
       return this.fb.group({
         startTime: [startTime, this.conditionalValidator(() => this.timeValidator(), 'Delete_Status')],
         endTime: [endTime, this.conditionalValidator(() => this.timeValidator(), 'Delete_Status')],

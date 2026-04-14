@@ -111,4 +111,55 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Pagination Section -->
+    <div class="pagination-container flex flex-col md:flex-row items-center justify-between p-4 bg-white border-t rounded-b-lg shadow-sm mt-1" *ngIf="tableData?.length">
+        <!-- Result Summary -->
+        <div class="text-sm text-gray-500 mb-4 md:mb-0">
+            Showing <span class="font-semibold text-gray-900">{{ (currentPage - 1) * pageSize + 1 }}</span> to 
+            <span class="font-semibold text-gray-900">{{ Math.min(currentPage * pageSize, totalRecords) }}</span> of 
+            <span class="font-semibold text-gray-900">{{ totalRecords }}</span> results
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center gap-6">
+            <!-- Items per page -->
+            <div class="flex items-center space-x-3">
+                <label class="text-sm text-gray-600 font-medium whitespace-nowrap">Items per page:</label>
+                <div class="relative">
+                    <select [(ngModel)]="pageSize" 
+                            (change)="onPageChange({pageIndex: 0, pageSize: pageSize})"
+                            class="appearance-none bg-white border border-gray-300 rounded-lg pl-3 pr-8 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer hover:border-gray-400">
+                        <option [value]="25">25</option>
+                        <option [value]="50">50</option>
+                        <option [value]="75">75</option>
+                        <option [value]="100">100</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                        <mat-icon class="text-lg">expand_more</mat-icon>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="flex items-center space-x-2">
+                <button (click)="onPageChange({pageIndex: currentPage - 2, pageSize: pageSize})"
+                        [disabled]="currentPage === 1"
+                        class="nav-btn group flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">
+                    <mat-icon class="text-lg mr-1 group-hover:-translate-x-0.5 transition-transform">chevron_left</mat-icon>
+                    Previous
+                </button>
+
+                <div class="px-4 py-2 text-sm font-semibold text-blue-600 bg-blue-50 rounded-lg border border-blue-100 min-w-[100px] text-center">
+                    Page {{ currentPage }} of {{ Math.ceil(totalRecords / pageSize) || 1 }}
+                </div>
+
+                <button (click)="onPageChange({pageIndex: currentPage, pageSize: pageSize})"
+                        [disabled]="currentPage >= Math.ceil(totalRecords / pageSize)"
+                        class="nav-btn group flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">
+                    Next
+                    <mat-icon class="text-lg ml-1 group-hover:translate-x-0.5 transition-transform">chevron_right</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

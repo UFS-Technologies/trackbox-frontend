@@ -154,6 +154,47 @@
     </div>
   </div>
   }
+
+  <!-- Pagination Section -->
+  <div class="pagination-container" *ngIf="Total_Entries > 0">
+    <div class="pagination-summary">
+      Showing 
+      <span class="font-semibold">{{ (currentPage - 1) * pageSize + 1 }}</span>
+      to 
+      <span class="font-semibold">{{ Math.min(currentPage * pageSize, Total_Entries) }}</span>
+      of 
+      <span class="font-semibold">{{ Total_Entries }}</span>
+      results
+    </div>
+
+    <div class="pagination-controls">
+      <div class="page-size-selector">
+        <label for="pageSize">Items per page:</label>
+        <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageChange({pageIndex: 0, pageSize: pageSize})" class="size-select">
+          <option [value]="10">10</option>
+          <option [value]="25">25</option>
+          <option [value]="50">50</option>
+          <option [value]="100">100</option>
+        </select>
+      </div>
+
+      <div class="page-navigation">
+        <button class="nav-btn" [disabled]="currentPage === 1" (click)="onPageChange({pageIndex: currentPage - 2, pageSize: pageSize})">
+          <mat-icon>chevron_left</mat-icon>
+          Previous
+        </button>
+        
+        <div class="page-status">
+          Page {{ currentPage }} of {{ Math.ceil(Total_Entries / pageSize) }}
+        </div>
+
+        <button class="nav-btn" [disabled]="currentPage * pageSize >= Total_Entries" (click)="onPageChange({pageIndex: currentPage, pageSize: pageSize})">
+          Next
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
 </section>
 } @else if(view == 'edit'){
 <section class="border border-gray-300 shadow p-6 rounded-lg bg-white">
@@ -403,7 +444,7 @@
                   </button>
                   }
                 </div>
-                <div class="editable-dial-example flex flex-col gap-4 p-4">
+                <div style="display: none !important" class="editable-dial-example flex flex-col gap-4 p-4">
                   <!-- Start Time Input -->
                   <div class="relative">
                     <label for="start-time" class="block text-sm font-medium text-gray-700 mb-2">
@@ -465,7 +506,7 @@
               </div>
 
               }
-              <button type="button" (click)="addTimeSlot(courseIndex)" class="text-green-500 hover:text-green-700"
+              <button style="display: none !important" type="button" (click)="addTimeSlot(courseIndex)" class="text-green-500 hover:text-green-700"
                 [disabled]="courseGroup.get('Delete_Status')?.value === 1">
                 + Add Time Slot
               </button>
@@ -502,120 +543,82 @@
   </form>
 </section>
 } @else if(view == 'courses') {
-<section class="border border-gray-300 shadow p-6 rounded-lg bg-white">
-  <div class="flex justify-between">
-    <label for="">Assigned courses</label>
-    <button class="border border-blue hover:bg-gray-500 hover:text-white text-black font-bold py-2 px-4 rounded"
-      (click)="closeClick()">
-      Close
-    </button>
-  </div>
-  <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+<div class="container mx-auto px-4 py-6 bg-gray-50 min-h-screen">
+  <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+    <!-- Header -->
+    <div class="px-6 py-4 bg-gray-100 flex items-center justify-between border-b border-gray-200">
+      <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+        <i class="material-symbols-outlined mr-2 text-blue-600">view_list</i>
+        Assigned Courses / Batches
+      </h2>
+      <button (click)="closeClick()"
+        class="flex items-center px-4 py-2 bg-blue text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105">
+        <i class="material-symbols-outlined mr-1">close</i>
+        Close
+      </button>
+    </div>
+
+    <!-- Courses Table -->
     <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead>
-          <tr class="bg-gray-50">
-            <th scope="col" class="px-8 py-5 text-left">
-              <div class="text-sm font-semibold text-gray-900">Course </div>
-            </th>
+      <table class="w-full">
+        <thead class="bg-gray-100 sticky top-0">
+          <tr>
             @if(!isHodCourse){
-            <!-- <th scope="col" class="px-8 py-5 text-left">
-              <div class="text-sm font-semibold text-gray-900">Details </div>
-            </th> -->
-            <th scope="col" class="px-8 py-5 text-left">
-              <div class="text-sm font-semibold text-gray-900">Timing Details</div>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              Batch Name
             </th>
             }
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              Course Name
+            </th>
+            <th [hidden]="true" style="display: none !important" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              Start Time
+            </th>
+            <th [hidden]="true" style="display: none !important" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              End Time
+            </th>
           </tr>
         </thead>
-
-        <tbody class="divide-y divide-gray-100">
-          @for(item of courseList; track $index) {
-          <tr class="group hover:bg-blueGray-50/30 transition-all duration-200">
-            <!-- Course Details -->
-            <td class="px-8 py-6">
-              <div class="flex items-center gap-4">
-                <!-- Course Icon with gradient -->
-                <!-- <div class="flex-shrink-0">
-                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blueGray-100 to-blueGray-200 
-                                flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200">
-                        <i class="fas fa-book text-blueGray-600 text-lg"></i>
-                      </div>
-                    </div> -->
-                <!-- Course Info -->
-                <div>
-                  <div class="text-base font-semibold text-gray-900 mb-1">{{ item.Course_Name }}</div>
-                  <div class="text-sm text-gray-500 flex items-center gap-2">
-                    <!-- <span class="px-2 py-1 rounded-md bg-gray-100 text-gray-600">
-                          ID: {{ item.Course_ID }}
-                        </span> -->
-                  </div>
-                </div>
-              </div>
-            </td>
-
-            @if(!isHodCourse){
-            <!-- Session Type -->
-            <!-- <td class="px-8 py-6">
-              @if(item.Batch_Name && item.Start_Date && item.End_Date) {
-              <div class="space-y-3">
-                <div class="flex items-center gap-3">
-                  <div>
-                    <div class="font-medium text-gray-900">{{ item.Batch_Name }}</div>
-                    <div class="text-sm text-gray-500">Batch Course</div>
-                  </div>
-                </div>
-                <div class="flex items-start gap-2 m-0">
-                  <div class="flex items-start gap-2 px-3 py-1.5 rounded-lg bg-gray-50 text-sm text-gray-600 ps-0 pt-0">
-                    <span>{{ item.Start_Date | date:'mediumDate' }}</span>
-                    <span class="text-gray-400">→</span>
-                    <span>{{ item.End_Date | date:'mediumDate' }}</span>
-                  </div>
-                </div>
-              </div>
-              } @else {
-              <div class="flex items-center gap-3">
-                <div>
-                  <div class="font-medium text-gray-900">One-on-One Session</div>
-                </div>
-              </div>
+        <tbody>
+          <ng-container *ngIf="courseList && courseList.length > 0; else noCourseData">
+            <tr *ngFor="let item of courseList; let i = index"
+              class="hover:bg-gray-50 transition duration-150 ease-in-out border-b last:border-b-0">
+              @if(!isHodCourse){
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                <span
+                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  {{ item.Batch_Name || '' }}
+                </span>
+              </td>
               }
-            </td> -->
-
-            <!-- Timing Details -->
-            <td class="px-8 py-6">
-              <div class="flex items-center gap-3">
-
-                <div>
-                  <!-- <div class="text-sm text-gray-500 mt-0.5">
-                    <span class="inline-flex items-center gap-1">
-                      <i class="fas fa-sync-alt text-xs text-gray-400"></i>
-                      @if(item.Batch_Name){
-
-                      Live Class Time
-                      }@else {
-                      One on One time
-                      }
-                    </span>
-                  </div> -->
-                  <div class="text-base font-medium text-gray-900">
-                    {{ item.start_time }} - {{ item.end_time }}
-                  </div>
-
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">
+                {{ item.Course_Name }}
+              </td>
+              <td [hidden]="true" style="display: none !important" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                <i class="material-symbols-outlined text-sm mr-1 text-blue-500">schedule</i>
+                {{ item.start_time }}
+              </td>
+              <td [hidden]="true" style="display: none !important" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                <i class="material-symbols-outlined text-sm mr-1 text-red-500">timer_off</i>
+                {{ item.end_time }}
+              </td>
+            </tr>
+          </ng-container>
+          <ng-template #noCourseData>
+            <tr>
+              <td colspan="4" class="text-center py-10 text-gray-500">
+                <div class="flex flex-col items-center justify-center">
+                  <i class="material-symbols-outlined text-6xl text-gray-300 mb-4">view_list_off</i>
+                  <p class="text-lg">No courses assigned</p>
                 </div>
-              </div>
-            </td>
-            }
-          </tr>
-          }
-
-          <!-- Empty State with premium design -->
-
+              </td>
+            </tr>
+          </ng-template>
         </tbody>
       </table>
     </div>
   </div>
-</section>
+</div>
 } @else if(view == 'TeacherStudents') {
 <div class="container mx-auto px-4 py-6 bg-gray-50 min-h-screen">
   <div class="bg-white shadow-xl rounded-lg overflow-hidden">
@@ -657,10 +660,10 @@
             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
               Course Name
             </th>
-            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+            <th [hidden]="true" style="display: none !important" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
               Start Time
             </th>
-            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+            <th [hidden]="true" style="display: none !important" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
               End Time
             </th>
           </tr>
@@ -686,11 +689,11 @@
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                 {{ item.Course_Name }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+              <td [hidden]="true" style="display: none !important" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                 <i class="material-symbols-outlined text-sm mr-1 text-blue-500">schedule</i>
                 {{ item.start_time }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+              <td [hidden]="true" style="display: none !important" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                 <i class="material-symbols-outlined text-sm mr-1 text-red-500">timer_off</i>
                 {{ item.end_time }}
               </td>

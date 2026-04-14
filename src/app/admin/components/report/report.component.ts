@@ -38,6 +38,8 @@ export class ReportComponent implements OnInit {
     // Pagination
     pageSize = 25;
     currentPage = 1;
+    totalRecords = 0;
+    Math = Math;
 
     // Filter Options
     courseDatas: any[] = [];
@@ -68,29 +70,15 @@ export class ReportComponent implements OnInit {
         const studentId = this.selectedStudent.value?.Student_ID || 0;
         const courseId = this.selectedCourse.value?.Course_ID || 0;
 
-        if (!studentId && !courseId) {
-             // Optionally handle case where no filter is selected if needed, 
-             // but the API seems to require studentId at least in the route params?
-             // The route is /Get_Exam_Results/:student_id. 
-             // If studentId is 0 (not selected), we might need to handle it.
-             // However, let's try to pass 0 if that's how the backend handles "all" or checks.
-             // Or maybe we should only call if studentId is present?
-             // Let's assume we need a student selected or pass 0.
-        }
-
-        this.student_Service_.Get_Exam_Results_By_Student_ID(studentId, courseId).subscribe({
+        this.student_Service_.Get_Exam_Results_By_Student_ID(studentId, courseId, this.currentPage, this.pageSize).subscribe({
             next: (res: any) => {
-                // Handle SP response format [rows, returnStatus]
-                console.log('API Response:', res);
-                if (Array.isArray(res) && res.length > 0 && Array.isArray(res[0])) {
-                    this.tableData = res[0];
-                    console.log('Table Data (SP format):', this.tableData);
-                } else if (Array.isArray(res)) {
-                    // Fallback if it returns just rows
-                    this.tableData = res;
-                    console.log('Table Data (Direct array):', this.tableData);
+                // SP returns [countRows, dataRows]
+                if (Array.isArray(res) && res.length >= 2) {
+                    this.totalRecords = res[0]?.[0]?.total_count || 0;
+                    this.tableData = res[1] || [];
                 } else {
                     this.tableData = [];
+                    this.totalRecords = 0;
                 }
             },
             complete: () => this.IsLoaded = true,
@@ -99,6 +87,16 @@ export class ReportComponent implements OnInit {
                 this.IsLoaded = true;
             }
         });
+    }
+
+    onPageChange(event: any) {
+        this.currentPage = event.pageIndex + 1;
+        this.pageSize = event.pageSize;
+        this.fetchReportData();
+    }
+
+    getTotalPages(): number {
+        return Math.ceil(this.totalRecords / this.pageSize);
     }
 
     displayFn(item: any): string {
@@ -140,6 +138,7 @@ export class ReportComponent implements OnInit {
 
     clearFilters() {
         [this.selectedCourse, this.selectedStudent].forEach(control => control.reset());
+        this.currentPage = 1;
         this.fetchReportData();
     }
 }

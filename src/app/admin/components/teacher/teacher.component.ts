@@ -50,7 +50,11 @@ export class TeacherComponent implements OnInit {
   readonly invoiceContainer = viewChild.required<ElementRef>('invoiceContainer');
   BatchList: any = [];
 
-  isLoading: boolean;Total_Entries: number;
+  isLoading: boolean;
+  Total_Entries: number = 0;
+  pageSize: number = 25;
+  currentPage: number = 1;
+  Math = Math;
   user_Data:user[]
   EditIndex: number;courseList;
   fileToRemoveAws: any=[];
@@ -329,6 +333,7 @@ console.log('this.user_Form.value: ', this.user_Form.value);
     while (this.teacherCourses.length !== 0) {
       this.teacherCourses.removeAt(0);
     }
+    this.currentPage = 1;
     this.courseList=[]
     
     console.log('  this.teacherCourses: ',   this.teacherCourses);
@@ -361,10 +366,12 @@ console.log('this.user_Form.value: ', this.user_Form.value);
 
     // Set a new timeout
     this.searchTimeout = setTimeout(() => {
+      this.currentPage = 1;
       this.Search_user();
     }, 300); // Wait for 300ms after the user stops typing
   }
   onFilterChange() {
+    this.currentPage = 1;
     this.Search_user();
   }
   toggleFilters() {
@@ -372,36 +379,52 @@ console.log('this.user_Form.value: ', this.user_Form.value);
   }
   Search_user() {
     this.isLoading = true;
-      this.isLoading = true;
-      const params = {
-        user_Name: this.searchTerm || '',
-        slot_wise: this.filters.slotWise ? true : null,
-        batch_wise: this.filters.batchWise ? true : null,
-        course_id: this.filters.courseId || 0,  // Use 0 if null/undefined
-        hod_only: this.filters.hodOnly ? true : null
-      };
+    const params = {
+      user_Name: this.searchTerm || '',
+      slot_wise: this.filters.slotWise ? true : null,
+      batch_wise: this.filters.batchWise ? true : null,
+      course_id: this.filters.courseId || 0,
+      hod_only: this.filters.hodOnly ? true : null,
+      page: this.currentPage,
+      pageSize: this.pageSize
+    };
 
-    this.user_Service_.Search_user(params).subscribe(Rows => {
-      this.user_Data = Rows;
-      this.Total_Entries = this.user_Data.length;
-      if (this.user_Data.length == 0) {
-        this.isLoading = false;
-        const dialogRef = this.dialogBox.open
-          (DialogBox_Component, {
-            panelClass: 'Dialogbox-Class'
-            , data: { Message: 'No Details Found', Type: "3" }
+    this.user_Service_.Search_user(params).subscribe({
+      next: (response: any) => {
+        // SP returns [countRows, dataRows]
+        if (Array.isArray(response) && response.length >= 2) {
+          this.Total_Entries = response[0]?.[0]?.total_count || 0;
+          this.user_Data = response[1] || [];
+        } else {
+          // Fallback
+          this.user_Data = response || [];
+          this.Total_Entries = this.user_Data.length;
+        }
+
+        if (this.user_Data.length === 0 && this.currentPage === 1) {
+          this.dialogBox.open(DialogBox_Component, {
+            panelClass: 'Dialogbox-Class',
+            data: { Message: 'No Details Found', Type: '3' }
           });
+        }
+      },
+      error: (error) => {
+        console.error('Error searching teachers:', error);
+        this.dialogBox.open(DialogBox_Component, {
+          panelClass: 'Dialogbox-Class',
+          data: { Message: 'Error Occurred', Type: '2' }
+        });
+      },
+      complete: () => {
+        this.isLoading = false;
       }
-      this.isLoading = false;
-    },
-      Rows => {
-        this.isLoading = false;
-        const dialogRef = this.dialogBox.open
-          (DialogBox_Component, {
-            panelClass: 'Dialogbox-Class'
-            , data: { Message: 'Error Occured', Type: "2" }
-          });
-      });
+    });
+  }
+
+  onPageChange(event: any) {
+    this.currentPage = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.Search_user();
   }
 
   Edit_user(user_e: any) {
@@ -1137,11 +1160,11 @@ createTimeSlotFormGroup(slot?: any): FormGroup {
     isLive: [slot?.Batch_ID > 0],
     Slot_Id: [slot ? slot.Slot_Id : this.generateTempId()],
     start_time: [
-      slot ? this.convertTo24Hour(slot.start_time) : '', 
+      slot ? this.convertTo24Hour(slot.start_time) : '00:00', 
       Validators.required
     ],
     end_time: [
-      slot ? this.convertTo24Hour(slot.end_time) : '', 
+      slot ? this.convertTo24Hour(slot.end_time) : '23:59', 
       Validators.required
     ],
     Delete_Status: [0]

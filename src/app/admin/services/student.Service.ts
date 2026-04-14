@@ -63,10 +63,16 @@ export class student_Service {
         var Search_Data = { 'studentId': studentId,'courseId':courseId}
         return this.http.get(environment.BasePath + 'student/Get_Student_Exam_Results/', { params: Search_Data });
     }
-    Get_Exam_Results_By_Student_ID(studentId, courseId): Observable<any> {
+    Get_Exam_Results_By_Student_ID(studentId, courseId, page?: number, pageSize?: number): Observable<any> {
         let params = new HttpParams();
         if (courseId) {
             params = params.set('course_id', courseId);
+        }
+        if (page) {
+            params = params.set('page', page.toString());
+        }
+        if (pageSize) {
+            params = params.set('pageSize', pageSize.toString());
         }
         return this.http.get(environment.BasePath + 'student/Get_Exam_Results/' + studentId, { params: params });
     }

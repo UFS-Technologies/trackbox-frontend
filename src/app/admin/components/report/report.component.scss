@@ -1,0 +1,48 @@
+
+.pagination-container {
+  border-top: 1px solid #f3f4f6;
+  background-color: #ffffff;
+  
+  .nav-btn {
+    background-color: #3b82f6;
+    color: #ffffff;
+    border-color: #2563eb;
+    
+    &:not(:disabled):hover {
+      background-color: #2563eb;
+      border-color: #1d4ed8;
+      color: #ffffff;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    &:disabled {
+      background-color: #f3f4f6;
+      border-color: #e5e7eb;
+      color: #9ca3af;
+    }
+    
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: inherit;
+    }
+  }
+
+  select {
+    background-image: none;
+    &::-ms-expand {
+      display: none;
+    }
+  }
+
+  // Smooth transition for page indicator
+  .min-w-\[100px\] {
+    transition: all 0.3s ease;
+  }
+}
+
+// Global Mat-Icon refinement within reports
+.mat-icon {
+  vertical-align: middle;
+}

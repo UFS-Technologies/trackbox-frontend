@@ -33,6 +33,21 @@
                 </mat-autocomplete>
             </mat-form-field>
 
+            <mat-form-field appearance="fill">
+                <mat-label>Batch</mat-label>
+                <input type="text"
+                       matInput
+                       [formControl]="selectedBatch"
+                       [matAutocomplete]="batchAuto"
+                       #Batch
+                       (input)="filter('batch')">
+                <mat-autocomplete #batchAuto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of bacthfilteredOptions" [value]="option">
+                        {{option.Batch_Name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
             <mat-form-field appearance="fill" (click)="picker.open()">
                 <mat-label>Date</mat-label>
                 <input matInput [matDatepicker]="picker" [formControl]="selectedDate" (click)="picker.open()">
@@ -79,6 +94,47 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- Pagination Section -->
+        <div class="pagination-container" *ngIf="Total_Entries > 0">
+            <div class="pagination-summary">
+                Showing 
+                <span class="font-semibold">{{ (currentPage - 1) * pageSize + 1 }}</span>
+                to 
+                <span class="font-semibold">{{ Math.min(currentPage * pageSize, Total_Entries) }}</span>
+                of 
+                <span class="font-semibold">{{ Total_Entries }}</span>
+                results
+            </div>
+
+            <div class="pagination-controls">
+                <div class="page-size-selector">
+                    <label for="pageSize">Items per page:</label>
+                    <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageChange({pageIndex: 0, pageSize: pageSize})" class="size-select">
+                        <option [value]="10">10</option>
+                        <option [value]="25">25</option>
+                        <option [value]="50">50</option>
+                        <option [value]="100">100</option>
+                    </select>
+                </div>
+
+                <div class="page-navigation">
+                    <button class="nav-btn" [disabled]="currentPage === 1" (click)="onPageChange({pageIndex: currentPage - 2, pageSize: pageSize})">
+                        <mat-icon>chevron_left</mat-icon>
+                        Previous
+                    </button>
+                    
+                    <div class="page-status">
+                        Page {{ currentPage }} of {{ Math.ceil(Total_Entries / pageSize) }}
+                    </div>
+
+                    <button class="nav-btn" [disabled]="currentPage * pageSize >= Total_Entries" (click)="onPageChange({pageIndex: currentPage, pageSize: pageSize})">
+                        Next
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="loading-overlay" *ngIf="!IsLoaded">

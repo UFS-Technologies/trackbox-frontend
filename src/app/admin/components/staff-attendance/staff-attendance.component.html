@@ -61,4 +61,45 @@
       </tbody>
     </table>
   </div>
+  
+  <!-- Pagination Section -->
+  <div class="pagination-container" *ngIf="Total_Entries > 0">
+    <div class="pagination-summary text-gray-600">
+      Showing 
+      <span class="font-semibold text-gray-900">{{ (currentPage - 1) * pageSize + 1 }}</span>
+      to 
+      <span class="font-semibold text-gray-900">{{ Math.min(currentPage * pageSize, Total_Entries) }}</span>
+      of 
+      <span class="font-semibold text-gray-900">{{ Total_Entries }}</span>
+      results
+    </div>
+
+    <div class="pagination-controls">
+      <div class="page-size-selector">
+        <label for="pageSize" class="text-sm">Items per page:</label>
+        <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageChange({pageIndex: 0, pageSize: pageSize})" class="size-select">
+          <option [value]="10">10</option>
+          <option [value]="25">25</option>
+          <option [value]="50">50</option>
+          <option [value]="100">100</option>
+        </select>
+      </div>
+
+      <div class="page-navigation">
+        <button class="nav-btn" [disabled]="currentPage === 1" (click)="onPageChange({pageIndex: currentPage - 2, pageSize: pageSize})">
+          <span class="material-symbols-outlined">chevron_left</span>
+          Previous
+        </button>
+        
+        <div class="page-status text-sm">
+          Page {{ currentPage }} of {{ Math.ceil(Total_Entries / pageSize) }}
+        </div>
+
+        <button class="nav-btn" [disabled]="currentPage * pageSize >= Total_Entries" (click)="onPageChange({pageIndex: currentPage, pageSize: pageSize})">
+          Next
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
